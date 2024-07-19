@@ -1,6 +1,7 @@
 package com.mt.model;
 
 import com.mt.enums.Role;
+import com.mt.model.transaction.Transaction;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -38,4 +39,6 @@ public class User {
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private List<Role> roles;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Transaction> transactions;
 }
