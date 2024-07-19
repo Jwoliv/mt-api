@@ -1,0 +1,21 @@
+server:
+  port: 9050
+
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    username: postgres
+    url: jdbc:postgresql://localhost:5432/mt-api-dev
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+security:
+  jwt:
+    token:
+      secret-key: asfhJKAHFKLUYIQYF*K&SDYFCVHAIYSdfas7fa8syf83hrrdafis7fy328459r12ufihasyfuaitsf6i7tdjhvblacbzio8xbuzjl1
