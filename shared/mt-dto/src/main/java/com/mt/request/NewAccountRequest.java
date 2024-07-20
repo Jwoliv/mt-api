@@ -7,5 +7,5 @@ import java.math.BigDecimal;
 @Data
 public class NewAccountRequest {
     private String name;
-    private BigDecimal currentBalance;
+    private BigDecimal startBalance;
 }
