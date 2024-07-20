@@ -1,6 +1,7 @@
 package com.mt.service.impl;
 
 import com.mt.dto.UserDto;
+import jakarta.transaction.Transactional;
 import lombok.Setter;
 import com.mt.mapper.UserMapper;
 import com.mt.model.User;
@@ -33,12 +34,12 @@ public class UserServiceImpl implements UserServiceI {
     }
 
     @Override
+    @Transactional
     public UserDto signUp(User newUser) {
         var email = newUser.getEmail();
         var username = newUser.getUsername();
         if (userRepository.notExistsByEmailOrUsername(email, username)) {
             var savedUser = userRepository.save(newUser);
-            userRepository.save(newUser);
             return userMapper.mapToDto(savedUser);
         }
         return null;
