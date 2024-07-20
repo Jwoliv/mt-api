@@ -1,6 +1,7 @@
 package com.mt.model;
 
 import com.mt.enums.Role;
+import com.mt.model.transaction.Account;
 import com.mt.model.transaction.Transaction;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -41,4 +42,6 @@ public class User {
     private List<Role> roles;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Transaction> transactions;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Account> accounts;
 }

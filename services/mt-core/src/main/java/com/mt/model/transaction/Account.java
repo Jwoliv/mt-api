@@ -1,9 +1,7 @@
 package com.mt.model.transaction;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.mt.model.User;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -25,4 +23,7 @@ public class Account {
     private BigDecimal currentBalance;
     private Date createdAt;
     private Date updatedAt;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

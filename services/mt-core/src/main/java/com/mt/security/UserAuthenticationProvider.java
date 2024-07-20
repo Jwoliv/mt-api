@@ -63,6 +63,11 @@ public class UserAuthenticationProvider {
         return buildJwtToken(user, now, validity, algorithm);
     }
 
+    public String extractEmail(String token) {
+        DecodedJWT decodedJWT = getDecoded(token);
+        return decodedJWT.getSubject();
+    }
+
     private DecodedJWT getDecoded(String token) {
         var algorithm = Algorithm.HMAC256(secretKey);
         var verifier = JWT.require(algorithm).build();
