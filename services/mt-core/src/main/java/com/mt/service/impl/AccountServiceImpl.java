@@ -34,7 +34,7 @@ public class AccountServiceImpl implements AccountService {
         var email = provider.extractEmail(authorization.split(" ")[1]);
         var account = Account.builder()
                 .name(request.getName())
-                .currentBalance(request.getCurrentBalance())
+                .currentBalance(request.getStartBalance())
                 .spendMoney(new BigDecimal("0"))
                 .earnMoney(new BigDecimal("0"))
                 .createdAt(new Date())
