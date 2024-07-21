@@ -8,4 +8,5 @@ import java.util.List;
 public interface AccountService {
     AccountDto createAccount(String authorization, NewAccountRequest accountDto);
     List<AccountDto> getAllAccountsByEmail(String authorization);
+    List<AccountDto> getAccountsDashboard(String authorization);
 }

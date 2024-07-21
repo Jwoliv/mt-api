@@ -17,4 +17,12 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
         WHERE A.user.email = :email
     """)
     List<Account> findAccountByEmail(@Param("email") String email);
+
+    @Query("""
+        SELECT A FROM Account AS A
+        WHERE A.user.email = :email
+        ORDER BY A.createdAt DESC
+        LIMIT 3
+    """)
+    List<Account> getAccountsDashboard(String email);
 }

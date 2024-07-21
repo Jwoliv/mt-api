@@ -51,4 +51,10 @@ public class AccountServiceImpl implements AccountService {
         var email = provider.extractEmail(authorization.split(" ")[1]);
         return accountMapper.toDto(accountRepository.findAccountByEmail(email));
     }
+
+    @Override
+    public List<AccountDto> getAccountsDashboard(String authorization) {
+        var email = provider.extractEmail(authorization.split(" ")[1]);
+        return accountMapper.toDto(accountRepository.getAccountsDashboard(email));
+    }
 }
