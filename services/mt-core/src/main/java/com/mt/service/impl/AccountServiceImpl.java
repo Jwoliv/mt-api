@@ -10,6 +10,7 @@ import com.mt.security.UserAuthenticationProvider;
 import com.mt.service.AccountService;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -47,9 +48,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountDto> getAllAccountsByEmail(String authorization) {
+    public List<AccountDto> getAllAccountsByEmail(String authorization, Integer pageNumber, Integer pageSize) {
         var email = provider.extractEmail(authorization.split(" ")[1]);
-        return accountMapper.toDto(accountRepository.findAccountByEmail(email));
+        return accountMapper.toDto(accountRepository.findAccountByEmail(email, PageRequest.of(pageNumber, pageSize)));
     }
 
     @Override

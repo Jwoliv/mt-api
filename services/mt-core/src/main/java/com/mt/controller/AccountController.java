@@ -1,9 +1,9 @@
 package com.mt.controller;
 
 import com.mt.dto.AccountDto;
-import com.mt.model.transaction.Account;
 import com.mt.request.NewAccountRequest;
 import com.mt.service.AccountService;
+import jakarta.websocket.server.PathParam;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,16 +18,18 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping("/new")
-    public AccountDto createAccount(
-            @RequestHeader("Authorization") String authorization,
-            @RequestBody NewAccountRequest account
+    public AccountDto createAccount(@RequestHeader("Authorization") String authorization,
+                                    @RequestBody NewAccountRequest account
     ) {
         return accountService.createAccount(authorization, account);
     }
 
     @GetMapping
-    public List<AccountDto> getAllAccountsByEmail(@RequestHeader("Authorization") String authorization) {
-        return accountService.getAllAccountsByEmail(authorization);
+    public List<AccountDto> getAllAccountsByEmail(@RequestHeader("Authorization") String authorization,
+                                                  @PathParam(value = "pageNumber") Integer pageNumber,
+                                                  @PathParam(value = "pageSize") Integer pageSize
+    ) {
+        return accountService.getAllAccountsByEmail(authorization, pageNumber, pageSize);
     }
 
     @GetMapping("/dashboard")
