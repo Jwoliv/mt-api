@@ -1,0 +1,31 @@
+package com.mt.repository;
+
+import com.mt.repository.view.DailyReportView;
+import com.mt.enums.TypeTransaction;
+import com.mt.model.transaction.Transaction;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Repository
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+    @Query("""
+        SELECT NEW com.mt.repository.view.DailyReportView(
+            SUM(CASE WHEN T.type = com.mt.enums.TypeTransaction.EARNING THEN T.amount END),
+            SUM(CASE WHEN T.type = com.mt.enums.TypeTransaction.SPENDING THEN T.amount END),
+            T.createdAt
+        )
+        FROM Transaction T
+        WHERE T.user.email = :email
+        AND T.createdAt BETWEEN :startOfDay AND :endOfDay
+        GROUP BY T.createdAt
+        ORDER BY T.createdAt DESC
+    """)
+    List<DailyReportView> getDailyUserReport(@Param("email") String email,
+                                             @Param("startOfDay") LocalDateTime startOfDay,
+                                             @Param("endOfDay") LocalDateTime endOfDay);
+}

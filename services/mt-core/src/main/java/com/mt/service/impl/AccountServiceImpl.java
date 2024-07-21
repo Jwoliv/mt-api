@@ -7,7 +7,7 @@ import com.mt.repository.AccountRepository;
 import com.mt.repository.UserRepository;
 import com.mt.request.NewAccountRequest;
 import com.mt.security.UserAuthenticationProvider;
-import com.mt.service.AccountService;
+import com.mt.service.AccountServiceI;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl implements AccountServiceI {
 
     @Setter(onMethod = @__(@Autowired))
     private AccountRepository accountRepository;

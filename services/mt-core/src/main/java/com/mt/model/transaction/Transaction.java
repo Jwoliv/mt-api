@@ -28,4 +28,6 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+    private Date createdAt;
+    private Date updatedAt;
 }
