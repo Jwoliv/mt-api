@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Setter
@@ -21,8 +22,8 @@ public class Account {
     private BigDecimal spendMoney;
     private BigDecimal earnMoney;
     private BigDecimal currentBalance;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

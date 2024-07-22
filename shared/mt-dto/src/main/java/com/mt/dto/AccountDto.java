@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -14,6 +14,6 @@ public class AccountDto {
     private BigDecimal spendMoney;
     private BigDecimal earnMoney;
     private BigDecimal currentBalance;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

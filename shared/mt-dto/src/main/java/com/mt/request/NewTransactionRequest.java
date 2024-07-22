@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -18,7 +19,7 @@ public class NewTransactionRequest {
     @NotNull
     private Long categoryId;
     @NotNull
-    private Date date;
+    private LocalDateTime date;
     @NotNull
     private TypeTransaction type;
     private String sender;

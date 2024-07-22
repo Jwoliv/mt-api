@@ -17,13 +17,13 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         SELECT NEW com.mt.repository.view.DailyReportView(
             SUM(CASE WHEN T.type = com.mt.enums.TypeTransaction.EARNING THEN T.amount END),
             SUM(CASE WHEN T.type = com.mt.enums.TypeTransaction.SPENDING THEN T.amount END),
-            T.createdAt
+            T.date
         )
         FROM Transaction T
         WHERE T.user.email = :email
-        AND T.createdAt BETWEEN :startOfDay AND :endOfDay
-        GROUP BY T.createdAt
-        ORDER BY T.createdAt DESC
+        AND T.date BETWEEN :startOfDay AND :endOfDay
+        GROUP BY T.date
+        ORDER BY T.date DESC
     """)
     List<DailyReportView> getDailyUserReport(@Param("email") String email,
                                              @Param("startOfDay") LocalDateTime startOfDay,

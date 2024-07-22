@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -11,9 +12,9 @@ import java.util.Date;
 public class DailyReportView {
     private BigDecimal earning;
     private BigDecimal spending;
-    private Date date;
+    private LocalDateTime date;
 
-    public DailyReportView(BigDecimal earning, BigDecimal spending, Date date) {
+    public DailyReportView(BigDecimal earning, BigDecimal spending, LocalDateTime date) {
         this.earning = earning;
         this.spending = spending;
         this.date = date;

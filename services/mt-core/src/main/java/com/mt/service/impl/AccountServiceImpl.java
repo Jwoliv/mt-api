@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -38,8 +39,8 @@ public class AccountServiceImpl implements AccountServiceI {
                 .currentBalance(request.getStartBalance())
                 .spendMoney(new BigDecimal("0"))
                 .earnMoney(new BigDecimal("0"))
-                .createdAt(new Date())
-                .updatedAt(new Date())
+                .createdAt(LocalDateTime.now().toLocalDate().atStartOfDay())
+                .updatedAt(LocalDateTime.now().toLocalDate().atStartOfDay())
                 .user(userRepository.findByEmail(email).orElse(null))
                 .build();
 

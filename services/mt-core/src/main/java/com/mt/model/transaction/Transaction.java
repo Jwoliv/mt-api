@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -19,8 +20,9 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date date;
+    private LocalDateTime date;
     private BigDecimal amount;
+    @Enumerated(EnumType.STRING)
     private TypeTransaction type;
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -28,6 +30,6 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
