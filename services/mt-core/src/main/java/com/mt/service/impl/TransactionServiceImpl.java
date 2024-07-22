@@ -26,8 +26,17 @@ public class TransactionServiceImpl implements TransactionServiceI {
 
     @Override
     public List<TransactionDashboardDto> getTransactionsDashboard(String auth) {
-        String email = provider.extractEmail(auth.split(" ")[1]);
-        List<TransactionDashboardView> transactionDashboardViews = transactionRepository.getTransactionsDashboard(email, PageRequest.of(0, 3));
+        return getTransactionsPageable(auth, 0, 3);
+    }
+
+    @Override
+    public List<TransactionDashboardDto> getTransactions(String auth, Integer pageNumber, Integer pageSize) {
+        return getTransactionsPageable(auth, pageNumber, pageSize);
+    }
+
+    private List<TransactionDashboardDto> getTransactionsPageable(String auth, Integer pageNumber, Integer pageSize) {
+        String email = provider.extractEmail(auth);
+        List<TransactionDashboardView> transactionDashboardViews = transactionRepository.getTransactionsDashboard(email, PageRequest.of(pageNumber, pageSize));
         return transactionMapper.viewToDto(transactionDashboardViews);
     }
 }

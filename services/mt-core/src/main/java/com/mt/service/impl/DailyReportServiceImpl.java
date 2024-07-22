@@ -28,7 +28,7 @@ public class DailyReportServiceImpl implements DailyReportServiceI {
     @Override
     public List<DailyReportDto> getDailyReports(String authorization) {
         var currentDate = LocalDateTime.now();
-        var email = provider.extractEmail(authorization.split(" ")[1]);
+        var email = provider.extractEmail(authorization);
         var reports = transactionRepository.getDailyUserReport(email, currentDate.minusDays(DEFAULT_STOCK_DAYS), currentDate);
         return reportMapper.toDto(reports);
     }

@@ -27,6 +27,14 @@ public class TransactionController {
         return ResponseEntity.ok(new Transaction());
     }
 
+    @GetMapping
+    public List<TransactionDashboardDto> getTransactions(@RequestHeader("Authorization") String auth,
+                                                             @RequestParam Integer pageNumber,
+                                                             @RequestParam Integer pageSize
+    ) {
+        return transactionService.getTransactions(auth, pageNumber, pageSize);
+    }
+
     @GetMapping("/dashboard")
     public List<TransactionDashboardDto> getTransactionsDashboard(@RequestHeader("Authorization") String auth) {
         return transactionService.getTransactionsDashboard(auth);

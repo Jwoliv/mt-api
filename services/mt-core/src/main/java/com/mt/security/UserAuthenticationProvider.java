@@ -64,7 +64,7 @@ public class UserAuthenticationProvider {
     }
 
     public String extractEmail(String token) {
-        DecodedJWT decodedJWT = getDecoded(token);
+        DecodedJWT decodedJWT = getDecoded(token.split(" ")[1]);
         return decodedJWT.getSubject();
     }
 

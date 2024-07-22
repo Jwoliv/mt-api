@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountServiceI {
 
     @Override
     public AccountDto createAccount(String authorization, NewAccountRequest request) {
-        var email = provider.extractEmail(authorization.split(" ")[1]);
+        var email = provider.extractEmail(authorization);
         var account = Account.builder()
                 .name(request.getName())
                 .currentBalance(request.getStartBalance())
@@ -50,13 +50,13 @@ public class AccountServiceImpl implements AccountServiceI {
 
     @Override
     public List<AccountDto> getAllAccountsByEmail(String authorization, Integer pageNumber, Integer pageSize) {
-        var email = provider.extractEmail(authorization.split(" ")[1]);
+        var email = provider.extractEmail(authorization);
         return accountMapper.toDto(accountRepository.findAccountByEmail(email, PageRequest.of(pageNumber, pageSize)));
     }
 
     @Override
     public List<AccountDto> getAccountsDashboard(String authorization) {
-        var email = provider.extractEmail(authorization.split(" ")[1]);
+        var email = provider.extractEmail(authorization);
         return accountMapper.toDto(accountRepository.getAccountsDashboard(email));
     }
 }
