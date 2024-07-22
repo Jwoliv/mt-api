@@ -1,5 +1,6 @@
 package com.mt.controller;
 
+import com.mt.dto.DailyAmountReportDto;
 import com.mt.dto.DailyReportDto;
 import com.mt.service.DailyReportServiceI;
 import lombok.Setter;
@@ -20,5 +21,10 @@ public class ReportController {
     @GetMapping("/daily-dashboard")
     public List<DailyReportDto> getDailyReports(@RequestHeader("Authorization") String authorization) {
         return dailyReportService.getDailyReports(authorization);
+    }
+
+    @GetMapping("/daily-amount-reports")
+    public List<DailyAmountReportDto> getDailyAmountReports(@RequestHeader("Authorization") String authorization) {
+        return dailyReportService.getDailyAmountReports(authorization);
     }
 }

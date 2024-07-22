@@ -44,4 +44,6 @@ public class User {
     private List<Transaction> transactions;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Account> accounts;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<DailyAmountReport> dailyAmountReports;
 }

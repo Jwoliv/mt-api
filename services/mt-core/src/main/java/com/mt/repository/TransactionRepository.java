@@ -1,5 +1,6 @@
 package com.mt.repository;
 
+import com.mt.model.DailyAmountReport;
 import com.mt.repository.view.DailyReportView;
 import com.mt.enums.TypeTransaction;
 import com.mt.model.transaction.Transaction;
@@ -38,4 +39,15 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         ORDER BY T.createdAt
     """)
     List<TransactionDashboardView> getTransactionsDashboard(@Param("email") String email, Pageable pageable);
+
+
+    @Query("""
+        SELECT DAR FROM DailyAmountReport DAR
+        WHERE DAR.user.email = :email AND DAR.date BETWEEN :startOfDay AND :endOfDay
+        ORDER BY DAR.date DESC
+    """)
+    List<DailyAmountReport> getDailyAmountReports(@Param("email") String email,
+                                                  @Param("startOfDay") LocalDateTime startOfDay,
+                                                  @Param("endOfDay") LocalDateTime endOfDay,
+                                                  Pageable pageable);
 }
