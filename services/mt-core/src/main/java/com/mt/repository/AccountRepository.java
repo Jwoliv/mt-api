@@ -1,6 +1,5 @@
 package com.mt.repository;
 
-import com.mt.dto.AccountDto;
 import com.mt.model.transaction.Account;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
