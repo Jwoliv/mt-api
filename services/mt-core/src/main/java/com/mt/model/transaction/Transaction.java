@@ -30,6 +30,9 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

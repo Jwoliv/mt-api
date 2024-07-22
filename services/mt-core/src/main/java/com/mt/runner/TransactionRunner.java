@@ -1,7 +1,11 @@
 package com.mt.runner;
 
 import com.mt.enums.TypeTransaction;
+import com.mt.model.transaction.Account;
+import com.mt.model.transaction.Category;
 import com.mt.model.transaction.Transaction;
+import com.mt.repository.AccountRepository;
+import com.mt.repository.CategoryRepository;
 import com.mt.repository.TransactionRepository;
 import com.mt.repository.UserRepository;
 import lombok.Setter;
@@ -23,22 +27,29 @@ public class TransactionRunner implements CommandLineRunner {
     private TransactionRepository transactionRepository;
     @Setter(onMethod = @__(@Autowired))
     private UserRepository userRepository;
+    @Setter(onMethod = @__({@Autowired}))
+    private CategoryRepository categoryRepository;
+    @Setter(onMethod = @__({@Autowired}))
+    private AccountRepository accountRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        this.createAndSaveTransactions();
+//        this.createAndSaveTransactions();
     }
 
     private void createAndSaveTransactions() {
+
+        Category category = Category.builder().name("category#1").build();
+        Account account = Account.builder().name("account#1").build();
+
+        accountRepository.save(account);
+        categoryRepository.save(category);
+
         Calendar calendar = Calendar.getInstance();
         boolean isExample = true;
         for (int i = 0; i < 20; i++) {
             for (int j = 1; j < 24; j++) {
                 Transaction transaction = new Transaction();
-
-                // Set date to a random time on the current day
-
-                // Create a random time within the day for createdAt
 
                 LocalDateTime localDateTime = LocalDateTime.of(2024, 7, j, 0, 0,0);
 
@@ -47,22 +58,13 @@ public class TransactionRunner implements CommandLineRunner {
                 transaction.setType(isExample ? TypeTransaction.SPENDING : TypeTransaction.EARNING);
                 transaction.setUser(userRepository.findByEmail("aaa1@gmail.com").orElse(null));
                 transaction.setCreatedAt(LocalDateTime.now());
+                transaction.setCategory(categoryRepository.findByName("category#1").orElse(null));
+                transaction.setAccount(accountRepository.findByName("account#1").orElse(null));
                 isExample = !isExample;
                 transactionRepository.save(transaction);
             }
             // Move to the previous day
             calendar.add(Calendar.DAY_OF_MONTH, -1);
         }
-    }
-
-    private LocalDateTime generateRandomLocalDateTimeWithinDay(Calendar calendar) {
-        LocalDateTime startOfDay = calendar.toInstant().atZone(ZoneId.systemDefault()).toLocalDate().atStartOfDay();
-        LocalDateTime endOfDay = startOfDay.plusDays(1).minusSeconds(1);
-
-        long startEpochSecond = startOfDay.atZone(ZoneId.systemDefault()).toEpochSecond();
-        long endEpochSecond = endOfDay.atZone(ZoneId.systemDefault()).toEpochSecond();
-        long randomEpochSecond = startEpochSecond + (long) (Math.random() * (endEpochSecond - startEpochSecond));
-
-        return LocalDateTime.ofEpochSecond(randomEpochSecond, 0, ZoneId.systemDefault().getRules().getOffset(startOfDay));
     }
 }

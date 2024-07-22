@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
@@ -26,4 +27,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
         LIMIT 3
     """)
     List<Account> getAccountsDashboard(String email);
+
+    Optional<Account> findByName(String name);
 }

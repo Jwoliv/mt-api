@@ -3,6 +3,8 @@ package com.mt.repository;
 import com.mt.repository.view.DailyReportView;
 import com.mt.enums.TypeTransaction;
 import com.mt.model.transaction.Transaction;
+import com.mt.repository.view.TransactionDashboardView;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,4 +30,12 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     List<DailyReportView> getDailyUserReport(@Param("email") String email,
                                              @Param("startOfDay") LocalDateTime startOfDay,
                                              @Param("endOfDay") LocalDateTime endOfDay);
+
+    @Query("""
+        SELECT NEW com.mt.repository.view.TransactionDashboardView(T.id, T.amount, T.type, T.category.name, T.account.name, T.date)
+        FROM Transaction T
+        WHERE T.user.email = :email
+        ORDER BY T.createdAt
+    """)
+    List<TransactionDashboardView> getTransactionsDashboard(@Param("email") String email, Pageable pageable);
 }
