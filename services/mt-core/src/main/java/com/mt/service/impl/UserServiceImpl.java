@@ -18,8 +18,6 @@ public class UserServiceImpl implements UserServiceI {
     private UserRepository userRepository;
     @Setter(onMethod = @__({@Autowired}))
     private UserMapper userMapper;
-    @Setter(onMethod = @__({@Autowired}))
-    private AuthUtils authUtils;
 
     @Override
     public UserDto findByEmail(String email) {
