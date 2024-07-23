@@ -1,6 +1,7 @@
 package com.mt.service.impl;
 
 import com.mt.dto.form_dto.CategoryFormDto;
+import com.mt.enums.TypeCategory;
 import com.mt.mapper.CategoryMapper;
 import com.mt.model.transaction.Category;
 import com.mt.repository.CategoryRepository;
@@ -20,8 +21,8 @@ public class CategoryServiceImpl implements CategoryServiceI {
     private CategoryMapper categoryMapper;
 
     @Override
-    public List<CategoryFormDto> getCategories() {
-        List<Category> categories = categoryRepository.findAll();
+    public List<CategoryFormDto> getCategories(TypeCategory type) {
+        List<Category> categories = categoryRepository.findAllByType(type);
         return categoryMapper.toDto(categories);
     }
 }
