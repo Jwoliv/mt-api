@@ -1,4 +1,4 @@
-package com.mt.dto;
+package com.mt.dto.reports;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

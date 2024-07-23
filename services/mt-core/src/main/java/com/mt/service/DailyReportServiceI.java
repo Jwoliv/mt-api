@@ -1,7 +1,7 @@
 package com.mt.service;
 
-import com.mt.dto.DailyAmountReportDto;
-import com.mt.dto.DailyReportDto;
+import com.mt.dto.reports.DailyAmountReportDto;
+import com.mt.dto.reports.DailyReportDto;
 
 import java.util.List;
 

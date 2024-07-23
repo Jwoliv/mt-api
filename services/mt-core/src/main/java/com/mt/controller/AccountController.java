@@ -1,7 +1,7 @@
 package com.mt.controller;
 
-import com.mt.dto.AccountDto;
-import com.mt.dto.AccountFormDto;
+import com.mt.dto.model_dto.AccountDto;
+import com.mt.dto.form_dto.AccountFormDto;
 import com.mt.request.NewAccountRequest;
 import com.mt.service.AccountServiceI;
 import jakarta.websocket.server.PathParam;

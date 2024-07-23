@@ -1,7 +1,7 @@
 package com.mt.mapper;
 
-import com.mt.dto.AccountDto;
-import com.mt.dto.AccountFormDto;
+import com.mt.dto.model_dto.AccountDto;
+import com.mt.dto.form_dto.AccountFormDto;
 import com.mt.model.transaction.Account;
 import org.mapstruct.Mapper;
 

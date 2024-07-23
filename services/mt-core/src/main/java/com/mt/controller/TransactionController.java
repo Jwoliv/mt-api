@@ -1,13 +1,11 @@
 package com.mt.controller;
 
-import com.mt.dto.CreatedTransaction;
 import com.mt.dto.TransactionDashboardDto;
-import com.mt.model.transaction.Transaction;
+import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.request.NewTransactionRequest;
 import com.mt.service.TransactionServiceI;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.mt.service.impl;
 
-import com.mt.dto.CreatedTransaction;
+import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.dto.TransactionDashboardDto;
 import com.mt.mapper.TransactionMapper;
 import com.mt.model.transaction.Transaction;

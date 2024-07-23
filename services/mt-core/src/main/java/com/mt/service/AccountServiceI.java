@@ -1,7 +1,7 @@
 package com.mt.service;
 
-import com.mt.dto.AccountDto;
-import com.mt.dto.AccountFormDto;
+import com.mt.dto.model_dto.AccountDto;
+import com.mt.dto.form_dto.AccountFormDto;
 import com.mt.request.NewAccountRequest;
 
 import java.util.List;

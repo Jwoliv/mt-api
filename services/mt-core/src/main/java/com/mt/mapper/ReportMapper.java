@@ -1,7 +1,7 @@
 package com.mt.mapper;
 
-import com.mt.dto.DailyAmountReportDto;
-import com.mt.dto.DailyReportDto;
+import com.mt.dto.reports.DailyAmountReportDto;
+import com.mt.dto.reports.DailyReportDto;
 import com.mt.model.DailyAmountReport;
 import com.mt.repository.view.DailyReportView;
 import org.mapstruct.Mapper;

@@ -1,6 +1,6 @@
 package com.mt.controller.auth;
 
-import com.mt.dto.UserDto;
+import com.mt.dto.model_dto.UserDto;
 import com.mt.dto.security.LoginDto;
 import com.mt.dto.security.SignUpDto;
 import lombok.Setter;

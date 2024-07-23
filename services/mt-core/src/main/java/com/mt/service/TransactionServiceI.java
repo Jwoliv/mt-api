@@ -1,8 +1,7 @@
 package com.mt.service;
 
-import com.mt.dto.CreatedTransaction;
 import com.mt.dto.TransactionDashboardDto;
-import com.mt.model.transaction.Transaction;
+import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.request.NewTransactionRequest;
 
 import java.util.List;

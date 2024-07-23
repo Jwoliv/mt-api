@@ -1,6 +1,6 @@
 package com.mt.service.impl;
 
-import com.mt.dto.CategoryFormDto;
+import com.mt.dto.form_dto.CategoryFormDto;
 import com.mt.mapper.CategoryMapper;
 import com.mt.model.transaction.Category;
 import com.mt.repository.CategoryRepository;

@@ -1,6 +1,6 @@
 package com.mt.mapper;
 
-import com.mt.dto.CategoryFormDto;
+import com.mt.dto.form_dto.CategoryFormDto;
 import com.mt.model.transaction.Category;
 import org.mapstruct.Mapper;
 

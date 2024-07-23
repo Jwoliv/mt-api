@@ -1,7 +1,7 @@
 package com.mt.service.impl;
 
-import com.mt.dto.DailyAmountReportDto;
-import com.mt.dto.DailyReportDto;
+import com.mt.dto.reports.DailyAmountReportDto;
+import com.mt.dto.reports.DailyReportDto;
 import com.mt.mapper.ReportMapper;
 import com.mt.repository.TransactionRepository;
 import com.mt.security.UserAuthenticationProvider;

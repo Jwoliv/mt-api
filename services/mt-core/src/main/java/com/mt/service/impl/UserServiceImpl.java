@@ -1,6 +1,6 @@
 package com.mt.service.impl;
 
-import com.mt.dto.UserDto;
+import com.mt.dto.model_dto.UserDto;
 import jakarta.transaction.Transactional;
 import lombok.Setter;
 import com.mt.mapper.UserMapper;

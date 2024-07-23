@@ -1,6 +1,6 @@
 package com.mt.controller;
 
-import com.mt.dto.CategoryFormDto;
+import com.mt.dto.form_dto.CategoryFormDto;
 import com.mt.service.CategoryServiceI;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
