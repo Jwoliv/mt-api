@@ -1,5 +1,6 @@
 package com.mt.dto.model_dto;
 
+import com.mt.enums.TypeTransaction;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,4 +15,5 @@ public class CreatedTransaction {
     private String categoryName;
     private String accountName;
     private LocalDateTime date;
+    private TypeTransaction type;
 }

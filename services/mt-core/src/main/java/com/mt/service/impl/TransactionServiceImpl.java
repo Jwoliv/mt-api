@@ -87,6 +87,7 @@ public class TransactionServiceImpl implements TransactionServiceI {
                 .categoryName(savedTransaction.getCategory().getName())
                 .amount(savedTransaction.getAmount())
                 .date(savedTransaction.getDate())
+                .type(savedTransaction.getType())
                 .build();
     }
 
