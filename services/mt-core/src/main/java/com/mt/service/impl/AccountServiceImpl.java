@@ -1,6 +1,7 @@
 package com.mt.service.impl;
 
 import com.mt.dto.AccountDto;
+import com.mt.dto.AccountFormDto;
 import com.mt.mapper.AccountMapper;
 import com.mt.model.transaction.Account;
 import com.mt.repository.AccountRepository;
@@ -36,8 +37,8 @@ public class AccountServiceImpl implements AccountServiceI {
         var account = Account.builder()
                 .name(request.getName())
                 .currentBalance(request.getStartBalance())
-                .spendMoney(new BigDecimal("0"))
-                .earnMoney(new BigDecimal("0"))
+                .spendMoney(new BigDecimal("0.00"))
+                .earnMoney(new BigDecimal("0.00"))
                 .createdAt(LocalDateTime.now().toLocalDate().atStartOfDay())
                 .updatedAt(LocalDateTime.now().toLocalDate().atStartOfDay())
                 .user(userRepository.findByEmail(email).orElse(null))
@@ -57,5 +58,11 @@ public class AccountServiceImpl implements AccountServiceI {
     public List<AccountDto> getAccountsDashboard(String authorization) {
         var email = provider.extractEmail(authorization);
         return accountMapper.toDto(accountRepository.getAccountsDashboard(email));
+    }
+
+    @Override
+    public List<AccountFormDto> getAccountsByEmailForNewTransaction(String authorization) {
+        var email = provider.extractEmail(authorization);
+        return accountMapper.toFormDto(accountRepository.findAccountByEmail(email));
     }
 }

@@ -20,6 +20,12 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findAccountByEmail(@Param("email") String email, Pageable pageable);
 
     @Query("""
+        SELECT A FROM Account A
+        WHERE A.user.email = :email
+    """)
+    List<Account> findAccountByEmail(@Param("email") String email);
+
+    @Query("""
         SELECT A FROM Account AS A
         WHERE A.user.email = :email
         ORDER BY A.createdAt DESC

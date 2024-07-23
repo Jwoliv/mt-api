@@ -1,5 +1,6 @@
 package com.mt.controller;
 
+import com.mt.dto.CreatedTransaction;
 import com.mt.dto.TransactionDashboardDto;
 import com.mt.model.transaction.Transaction;
 import com.mt.request.NewTransactionRequest;
@@ -19,12 +20,10 @@ public class TransactionController {
 
 
     @PostMapping("/new")
-    public ResponseEntity<Transaction> createNewTransaction(@RequestHeader("Authorization") String auth,
-                                                            @RequestBody NewTransactionRequest request
+    public CreatedTransaction createNewTransaction(@RequestHeader("Authorization") String auth,
+                                                   @RequestBody NewTransactionRequest request
     ) {
-        System.out.println(auth);
-        System.out.println(request);
-        return ResponseEntity.ok(new Transaction());
+        return transactionService.createNewTransaction(auth, request);
     }
 
     @GetMapping

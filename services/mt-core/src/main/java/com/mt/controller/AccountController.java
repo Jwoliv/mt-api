@@ -1,6 +1,7 @@
 package com.mt.controller;
 
 import com.mt.dto.AccountDto;
+import com.mt.dto.AccountFormDto;
 import com.mt.request.NewAccountRequest;
 import com.mt.service.AccountServiceI;
 import jakarta.websocket.server.PathParam;
@@ -30,6 +31,11 @@ public class AccountController {
                                                   @PathParam(value = "pageSize") Integer pageSize
     ) {
         return accountService.getAllAccountsByEmail(authorization, pageNumber, pageSize);
+    }
+
+    @GetMapping("/form-data")
+    public List<AccountFormDto> getAccountsByEmailForNewTransaction(@RequestHeader("Authorization") String authorization) {
+        return accountService.getAccountsByEmailForNewTransaction(authorization);
     }
 
     @GetMapping("/dashboard")

@@ -3,6 +3,7 @@ package com.mt.model.transaction;
 import com.mt.enums.TypeTransaction;
 import com.mt.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -19,7 +20,9 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
     private LocalDateTime date;
+    @NotNull
     private BigDecimal amount;
     @Enumerated(EnumType.STRING)
     private TypeTransaction type;
@@ -32,6 +35,9 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+    private String sender;
+    private String note;
+    @NotNull
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
