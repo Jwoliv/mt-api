@@ -56,7 +56,7 @@ public class TransactionServiceImpl implements TransactionServiceI {
 
         if (List.of(TypeTransaction.EARNING, TypeTransaction.SPENDING).contains(request.getType())) {
             transaction = Transaction.builder()
-                    .date(LocalDateTime.now().toLocalDate().atStartOfDay())
+                    .date(request.getDate().atStartOfDay())
                     .amount(request.getAmount())
                     .type(request.getType())
                     .user(userRepository.findByEmail(email).orElse(null))
@@ -68,7 +68,7 @@ public class TransactionServiceImpl implements TransactionServiceI {
                     .build();
         } else {
             transaction = Transaction.builder()
-                    .date(LocalDateTime.now().toLocalDate().atStartOfDay())
+                    .date(request.getDate().atStartOfDay())
                     .amount(request.getAmount())
                     .type(request.getType())
                     .user(userRepository.findByEmail(email).orElse(null))
