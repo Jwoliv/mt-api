@@ -1,13 +1,12 @@
 package com.mt.service.impl;
 
 import com.mt.dto.model_dto.UserDto;
-import jakarta.transaction.Transactional;
-import lombok.Setter;
 import com.mt.mapper.UserMapper;
 import com.mt.model.User;
 import com.mt.repository.UserRepository;
 import com.mt.service.UserServiceI;
-import com.mt.utils.AuthUtils;
+import jakarta.transaction.Transactional;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
