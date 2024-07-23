@@ -75,6 +75,7 @@ public class TransactionServiceImpl implements TransactionServiceI {
                     .account(accountRepository.findById(request.getSenderAccount()).orElse(null))
                     .receiverAccount(accountRepository.findById(request.getReceiverAccount()).orElse(null))
                     .createdAt(request.getDate().atStartOfDay())
+                    .category(categoryRepository.findById(3L).orElse(null)) //todo: id 3 have a transfer category
                     .build();
         }
 
