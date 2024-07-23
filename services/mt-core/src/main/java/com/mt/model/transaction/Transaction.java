@@ -35,6 +35,9 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+    @ManyToOne
+    @JoinColumn(name = "receiver_account_id")
+    private Account receiverAccount;
     private String sender;
     private String note;
     @NotNull

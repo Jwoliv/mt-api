@@ -2,6 +2,7 @@ package com.mt.service.impl;
 
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.dto.TransactionDashboardDto;
+import com.mt.enums.TypeTransaction;
 import com.mt.mapper.TransactionMapper;
 import com.mt.model.transaction.Transaction;
 import com.mt.repository.AccountRepository;
@@ -50,17 +51,33 @@ public class TransactionServiceImpl implements TransactionServiceI {
     @Override
     public CreatedTransaction createNewTransaction(String auth, NewTransactionRequest request) {
         String email = provider.extractEmail(auth);
-        Transaction transaction = Transaction.builder()
-                .date(LocalDateTime.now().toLocalDate().atStartOfDay())
-                .amount(request.getAmount())
-                .type(request.getType())
-                .user(userRepository.findByEmail(email).orElse(null))
-                .category(categoryRepository.findById(request.getCategoryId()).orElse(null))
-                .account(accountRepository.findById(request.getAccountId()).orElse(null))
-                .createdAt(LocalDateTime.now())
-                .sender(request.getSender())
-                .note(request.getNote())
-                .build();
+
+        Transaction transaction;
+
+        if (List.of(TypeTransaction.EARNING, TypeTransaction.SPENDING).contains(request.getType())) {
+            transaction = Transaction.builder()
+                    .date(LocalDateTime.now().toLocalDate().atStartOfDay())
+                    .amount(request.getAmount())
+                    .type(request.getType())
+                    .user(userRepository.findByEmail(email).orElse(null))
+                    .category(categoryRepository.findById(request.getCategoryId()).orElse(null))
+                    .account(accountRepository.findById(request.getAccountId()).orElse(null))
+                    .createdAt(request.getDate().atStartOfDay())
+                    .sender(request.getSender())
+                    .note(request.getNote())
+                    .build();
+        } else {
+            transaction = Transaction.builder()
+                    .date(LocalDateTime.now().toLocalDate().atStartOfDay())
+                    .amount(request.getAmount())
+                    .type(request.getType())
+                    .user(userRepository.findByEmail(email).orElse(null))
+                    .account(accountRepository.findById(request.getSenderAccount()).orElse(null))
+                    .receiverAccount(accountRepository.findById(request.getReceiverAccount()).orElse(null))
+                    .createdAt(request.getDate().atStartOfDay())
+                    .build();
+        }
+
 
         Transaction savedTransaction = transactionRepository.save(transaction);
 

@@ -29,4 +29,6 @@ public class Account {
     private User user;
     @OneToMany(mappedBy = "account")
     private List<Transaction> transactions;
+    @OneToMany(mappedBy = "receiverAccount")
+    private List<Transaction> transferTransactions;
 }
