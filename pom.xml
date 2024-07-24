@@ -24,6 +24,7 @@
     <modules>
         <module>shared/mt-dto</module>
         <module>services/mt-core</module>
+        <module>services/mt-task</module>
     </modules>
 
     <scm>

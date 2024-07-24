@@ -8,4 +8,5 @@ import java.util.List;
 public interface DailyReportService {
     List<DailyReportDto> getDailyReports(String authorization);
     List<DailyAmountReportDto> getDailyAmountReports(String authorization);
+    void saveDailyAmountReport();
 }

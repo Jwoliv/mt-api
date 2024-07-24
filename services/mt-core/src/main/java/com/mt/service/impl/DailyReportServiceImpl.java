@@ -2,8 +2,12 @@ package com.mt.service.impl;
 
 import com.mt.dto.reports.DailyAmountReportDto;
 import com.mt.dto.reports.DailyReportDto;
+import com.mt.mapper.DailyAmountReportMapper;
 import com.mt.mapper.ReportMapper;
+import com.mt.model.DailyAmountReport;
+import com.mt.repository.DailyAmountReportRepository;
 import com.mt.repository.TransactionRepository;
+import com.mt.repository.view.DailyAmountReportView;
 import com.mt.security.UserAuthenticationProvider;
 import com.mt.service.DailyReportService;
 import lombok.Setter;
@@ -27,6 +31,10 @@ public class DailyReportServiceImpl implements DailyReportService {
     private UserAuthenticationProvider provider;
     @Setter(onMethod = @__({@Autowired}))
     private ReportMapper reportMapper;
+    @Setter(onMethod = @__({@Autowired}))
+    private DailyAmountReportMapper dailyAmountReportMapper;
+    @Setter(onMethod = @__({@Autowired}))
+    private DailyAmountReportRepository dailyAmountReportRepository;
 
     @Override
     public List<DailyReportDto> getDailyReports(String authorization) {
@@ -47,4 +55,21 @@ public class DailyReportServiceImpl implements DailyReportService {
         return reportsResponse;
     }
 
+    @Override
+    public void saveDailyAmountReport() {
+        var dailyAmountReports = getDailyAmountReports();
+        dailyAmountReportRepository.saveAll(dailyAmountReports);
+    }
+
+    private List<DailyAmountReport> getDailyAmountReports() {
+        var dbData = dailyAmountReportRepository.findSumOfAccountBalancesGroupedByUserId(LocalDateTime.now().minusDays(1));
+        var dailyAmountReports = convertToView(dbData);
+        return dailyAmountReportMapper.toDailyAmountReportViews(dailyAmountReports);
+    }
+
+    private List<DailyAmountReportView> convertToView(List<Object[]> data) {
+        return data.stream()
+                .map(item -> (DailyAmountReportView) item[1])
+                .toList();
+    }
 }
