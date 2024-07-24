@@ -35,7 +35,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         SELECT NEW com.mt.repository.view.TransactionDashboardView(T.id, T.amount, T.type, T.category.name, T.account.name, T.date)
         FROM Transaction T
         WHERE T.user.email = :email
-        ORDER BY T.createdAt
+        ORDER BY T.createdAt DESC
     """)
     List<TransactionDashboardView> getTransactionsDashboard(@Param("email") String email, Pageable pageable);
 
