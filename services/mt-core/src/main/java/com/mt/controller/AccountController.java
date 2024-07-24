@@ -3,7 +3,7 @@ package com.mt.controller;
 import com.mt.dto.model_dto.AccountDto;
 import com.mt.dto.form_dto.AccountFormDto;
 import com.mt.request.NewAccountRequest;
-import com.mt.service.AccountServiceI;
+import com.mt.service.AccountService;
 import jakarta.websocket.server.PathParam;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.List;
 public class AccountController {
 
     @Setter(onMethod = @__({@Autowired}))
-    private AccountServiceI accountService;
+    private AccountService accountService;
 
     @PostMapping("/new")
     public AccountDto createAccount(@RequestHeader("Authorization") String authorization,

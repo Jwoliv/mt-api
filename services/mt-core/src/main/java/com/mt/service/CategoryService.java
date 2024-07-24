@@ -5,6 +5,6 @@ import com.mt.enums.TypeCategory;
 
 import java.util.List;
 
-public interface CategoryServiceI {
+public interface CategoryService {
     List<CategoryFormDto> getCategories(TypeCategory type);
 }

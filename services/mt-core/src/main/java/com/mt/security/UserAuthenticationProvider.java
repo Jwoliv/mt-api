@@ -7,7 +7,7 @@ import com.mt.dto.model_dto.UserDto;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import com.mt.service.UserServiceI;
+import com.mt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,7 +29,7 @@ public class UserAuthenticationProvider {
     private String secretKey;
 
     @Setter(onMethod = @__({@Autowired}))
-    private UserServiceI userService;
+    private UserService userService;
 
 
     @PostConstruct

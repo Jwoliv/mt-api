@@ -5,7 +5,7 @@ import com.mt.dto.reports.DailyReportDto;
 import com.mt.mapper.ReportMapper;
 import com.mt.repository.TransactionRepository;
 import com.mt.security.UserAuthenticationProvider;
-import com.mt.service.DailyReportServiceI;
+import com.mt.service.DailyReportService;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @Service
-public class DailyReportServiceImpl implements DailyReportServiceI {
+public class DailyReportServiceImpl implements DailyReportService {
     private static final Long DEFAULT_STOCK_DAYS = 20L;
     private static final Long DEFAULT_AMOUNT_DAILY_REPORTS = 60L;
 

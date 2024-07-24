@@ -5,7 +5,7 @@ import com.mt.dto.reports.DailyReportDto;
 
 import java.util.List;
 
-public interface DailyReportServiceI {
+public interface DailyReportService {
     List<DailyReportDto> getDailyReports(String authorization);
     List<DailyAmountReportDto> getDailyAmountReports(String authorization);
 }

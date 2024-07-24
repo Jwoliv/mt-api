@@ -2,7 +2,7 @@ package com.mt.controller;
 
 import com.mt.dto.form_dto.CategoryFormDto;
 import com.mt.enums.TypeCategory;
-import com.mt.service.CategoryServiceI;
+import com.mt.service.CategoryService;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +17,7 @@ import java.util.List;
 public class CategoryController {
 
     @Setter(onMethod = @__({@Autowired}))
-    private CategoryServiceI categoryService;
+    private CategoryService categoryService;
 
     @GetMapping("/form-data")
     public List<CategoryFormDto> getCategoriesByEmail(@RequestParam TypeCategory type) {

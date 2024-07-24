@@ -7,19 +7,19 @@ import com.mt.security.UserAuthenticationProvider;
 import lombok.Setter;
 import com.mt.mapper.UserMapper;
 import com.mt.repository.UserRepository;
-import com.mt.service.AuthServiceI;
-import com.mt.service.UserServiceI;
+import com.mt.service.AuthService;
+import com.mt.service.UserService;
 import com.mt.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthServiceImpl implements AuthServiceI {
+public class AuthServiceImpl implements AuthService {
 
     @Setter(onMethod = @__({@Autowired}))
     private UserAuthenticationProvider provider;
     @Setter(onMethod = @__({@Autowired}))
-    private UserServiceI userService;
+    private UserService userService;
     @Setter(onMethod = @__({@Autowired}))
     private UserRepository userRepository;
     @Setter(onMethod = @__({@Autowired}))

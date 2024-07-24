@@ -5,7 +5,7 @@ import com.mt.enums.TypeCategory;
 import com.mt.mapper.CategoryMapper;
 import com.mt.model.transaction.Category;
 import com.mt.repository.CategoryRepository;
-import com.mt.service.CategoryServiceI;
+import com.mt.service.CategoryService;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl implements CategoryServiceI {
+public class CategoryServiceImpl implements CategoryService {
 
     @Setter(onMethod = @__({@Autowired}))
     private CategoryRepository categoryRepository;

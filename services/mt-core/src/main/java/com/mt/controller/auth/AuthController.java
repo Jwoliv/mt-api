@@ -4,7 +4,7 @@ import com.mt.dto.model_dto.UserDto;
 import com.mt.dto.security.LoginDto;
 import com.mt.dto.security.SignUpDto;
 import lombok.Setter;
-import com.mt.service.AuthServiceI;
+import com.mt.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Setter(onMethod = @__({@Autowired}))
-    private AuthServiceI authService;
+    private AuthService authService;
 
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody LoginDto login) {

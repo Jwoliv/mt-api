@@ -4,14 +4,14 @@ import com.mt.dto.model_dto.UserDto;
 import com.mt.mapper.UserMapper;
 import com.mt.model.User;
 import com.mt.repository.UserRepository;
-import com.mt.service.UserServiceI;
+import com.mt.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UserServiceI {
+public class UserServiceImpl implements UserService {
 
     @Setter(onMethod = @__({@Autowired}))
     private UserRepository userRepository;
