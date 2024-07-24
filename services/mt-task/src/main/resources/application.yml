@@ -1,2 +1,14 @@
 server:
-  port: 9050
+  port: 9051
+
+feign:
+  client:
+    config:
+      mt-core-service:
+        name: core-service
+        url: http://localhost:9050/api/v1
+        connectTimeout: 5000
+        readTimeout: 5000
+task:
+  save-special-task:
+    cron: '00 00 * * *'
