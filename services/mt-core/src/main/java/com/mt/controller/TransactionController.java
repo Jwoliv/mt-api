@@ -26,8 +26,8 @@ public class TransactionController {
 
     @GetMapping
     public List<TransactionDashboardDto> getTransactions(@RequestHeader("Authorization") String auth,
-                                                             @RequestParam Integer pageNumber,
-                                                             @RequestParam Integer pageSize
+                                                         @RequestParam Integer pageNumber,
+                                                         @RequestParam Integer pageSize
     ) {
         return transactionService.getTransactions(auth, pageNumber, pageSize);
     }
