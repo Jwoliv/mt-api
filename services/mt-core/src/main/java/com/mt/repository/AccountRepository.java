@@ -17,13 +17,13 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
         SELECT A FROM Account A
         WHERE A.user.email = :email
     """)
-    List<Account> findAccountByEmail(@Param("email") String email, Pageable pageable);
+    List<Account> findAccountsByEmail(@Param("email") String email, Pageable pageable);
 
     @Query("""
         SELECT A FROM Account A
         WHERE A.user.email = :email
     """)
-    List<Account> findAccountByEmail(@Param("email") String email);
+    List<Account> findAccountsByEmail(@Param("email") String email);
 
     @Query("""
         SELECT A FROM Account AS A

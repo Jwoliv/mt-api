@@ -51,7 +51,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountDto> getAllAccountsByEmail(String authorization, Integer pageNumber, Integer pageSize) {
         var email = provider.extractEmail(authorization);
-        return accountMapper.toDto(accountRepository.findAccountByEmail(email, PageRequest.of(pageNumber, pageSize)));
+        return accountMapper.toDto(accountRepository.findAccountsByEmail(email, PageRequest.of(pageNumber, pageSize)));
     }
 
     @Override
@@ -63,6 +63,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountFormDto> getAccountsByEmailForNewTransaction(String authorization) {
         var email = provider.extractEmail(authorization);
-        return accountMapper.toFormDto(accountRepository.findAccountByEmail(email));
+        return accountMapper.toFormDto(accountRepository.findAccountsByEmail(email));
     }
 }
