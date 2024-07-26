@@ -4,7 +4,6 @@ import com.mt.config.FeignConfig;
 import com.mt.dto.form_dto.AccountFormDto;
 import com.mt.dto.model_dto.AccountDto;
 import com.mt.request.NewAccountRequest;
-import jakarta.websocket.server.PathParam;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
