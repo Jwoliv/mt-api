@@ -11,6 +11,6 @@ feign:
         path:
           transaction: ${feign.client.config.mt-core-service.url}/transaction
           accounts: ${feign.client.config.mt-core-service.url}/accounts
-          report: ${feign.client.config.mt-core-service.url}/reports
+          reports: ${feign.client.config.mt-core-service.url}/reports
           category: ${feign.client.config.mt-core-service.url}/category
           auth: ${feign.client.config.mt-core-service.url}/auth
