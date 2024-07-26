@@ -15,11 +15,11 @@ public class SummaryServiceImpl implements SummaryService {
 
     @Override
     public SummaryResponse getSummaryResponse(String authorization) {
-        var dailyReports = reportCore.getDailyReports(authorization);
+        var dailyReports = reportCore.getDailyAmountReports(authorization);
         var profitReports = reportCore.getProfitReports(authorization);
         return SummaryResponse.builder()
                 .dailyReports(dailyReports)
-                .profitsReports(profitReports)
+                .profitReports(profitReports)
                 .build();
     }
 }
