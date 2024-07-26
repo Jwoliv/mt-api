@@ -1,0 +1,16 @@
+server:
+  port: 9052
+
+feign:
+  client:
+    config:
+      mt-core-service:
+        url: http://localhost:9050/api/v1
+        connectTimeout: 5000
+        readTimeout: 5000
+        path:
+          transaction: ${feign.client.config.mt-core-service.url}/transaction
+          accounts: ${feign.client.config.mt-core-service.url}/accounts
+          report: ${feign.client.config.mt-core-service.url}/reports
+          category: ${feign.client.config.mt-core-service.url}/category
+          auth: ${feign.client.config.mt-core-service.url}/auth
