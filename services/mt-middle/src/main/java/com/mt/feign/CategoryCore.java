@@ -5,6 +5,7 @@ import com.mt.dto.form_dto.CategoryFormDto;
 import com.mt.enums.TypeCategory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -16,5 +17,6 @@ import java.util.List;
 )
 public interface CategoryCore {
     @GetMapping("/form-data")
-    List<CategoryFormDto> getCategoriesByEmail(@RequestParam TypeCategory type);
+    List<CategoryFormDto> getCategoriesByEmail(@RequestHeader("Authorization") String authorization,
+                                               @RequestParam TypeCategory type);
 }

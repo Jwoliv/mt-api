@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 @Service
@@ -80,8 +81,9 @@ public class ReportServiceImpl implements ReportService {
     }
 
     private BigDecimal getProfitPercentage(BigDecimal profit, BigDecimal generalAmount) {
-        return (profit.multiply(new BigDecimal("100")))
-                .divide(generalAmount, 2, RoundingMode.HALF_UP);
+        return Objects.nonNull(profit)
+                ? profit.multiply(new BigDecimal("100")).divide(generalAmount, 2, RoundingMode.HALF_UP)
+                : new BigDecimal("0");
     }
 
     @Override
