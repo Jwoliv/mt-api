@@ -31,4 +31,7 @@ public interface AccountCore {
 
     @GetMapping("/dashboard")
     List<AccountDto> getAccountsDashboard(@RequestHeader("Authorization") String authorization);
+
+    @DeleteMapping("/{id}")
+    void deleteAccountById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id);
 }

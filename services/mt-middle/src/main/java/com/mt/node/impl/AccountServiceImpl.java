@@ -42,4 +42,9 @@ public class AccountServiceImpl implements AccountService {
         return accountCore.getUserAccountById(auth, id);
     }
 
+    @Override
+    public void deleteAccountById(String auth, Long id) {
+        accountCore.deleteAccountById(auth, id);
+    }
+
 }

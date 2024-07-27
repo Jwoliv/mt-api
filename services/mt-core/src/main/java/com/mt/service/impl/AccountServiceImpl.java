@@ -5,10 +5,12 @@ import com.mt.dto.form_dto.AccountFormDto;
 import com.mt.mapper.AccountMapper;
 import com.mt.model.transaction.Account;
 import com.mt.repository.AccountRepository;
+import com.mt.repository.TransactionRepository;
 import com.mt.repository.UserRepository;
 import com.mt.request.NewAccountRequest;
 import com.mt.security.UserAuthenticationProvider;
 import com.mt.service.AccountService;
+import jakarta.transaction.Transactional;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +31,8 @@ public class AccountServiceImpl implements AccountService {
     private UserAuthenticationProvider provider;
     @Setter(onMethod = @__(@Autowired))
     private UserRepository userRepository;
+    @Setter(onMethod = @__({@Autowired}))
+    private TransactionRepository transactionRepository;
 
 
     @Override
@@ -72,4 +76,13 @@ public class AccountServiceImpl implements AccountService {
         var account = accountRepository.getUserAccountById(email, id).orElse(null);
         return accountMapper.toDto(account);
     }
+
+    @Override
+    @Transactional
+    public void deleteAccountById(String auth, Long id) {
+        var email = provider.extractEmail(auth);
+        transactionRepository.deleteAllByAccountId(id);
+        accountRepository.deleteAccountById(email, id);
+    }
+
 }

@@ -7,6 +7,7 @@ import com.mt.service.AccountService;
 import jakarta.websocket.server.PathParam;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,6 +42,12 @@ public class AccountController {
     @GetMapping("/form-data")
     public List<AccountFormDto> getAccountsByEmailForNewTransaction(@RequestHeader("Authorization") String authorization) {
         return accountService.getAccountsByEmailForNewTransaction(authorization);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAccountById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id) {
+        accountService.deleteAccountById(auth, id);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/dashboard")

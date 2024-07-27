@@ -6,6 +6,7 @@ import com.mt.repository.view.DailyReportView;
 import com.mt.repository.view.TransactionDashboardView;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -96,4 +97,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         WHERE T.user.email = :email AND T.id = :id
     """)
     Transaction getUserTransactionById(String email, Long id);
+
+    @Modifying
+    @Query("DELETE FROM Transaction T WHERE T.account.id = :id")
+    void deleteAllByAccountId(Long id);
 }

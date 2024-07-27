@@ -3,9 +3,11 @@ package com.mt.repository;
 import com.mt.model.transaction.Account;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,4 +42,8 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
         WHERE A.user.email = :email AND A.id = :id
     """)
     Optional<Account> getUserAccountById(String email, Long id);
+
+    @Modifying
+    @Query("DELETE FROM Account A WHERE A.user.email = :email AND A.id = :id")
+    void deleteAccountById(String email, Long id);
 }

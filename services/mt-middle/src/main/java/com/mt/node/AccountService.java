@@ -12,4 +12,5 @@ public interface AccountService {
     List<AccountDto> getAccountsDashboard(String authorization);
     List<AccountFormDto> getAccountsByEmailForNewTransaction(String authorization);
     AccountDto getUserAccountById(String auth, Long id);
+    void deleteAccountById(String auth, Long id);
 }
