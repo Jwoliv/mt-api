@@ -1,6 +1,7 @@
 package com.mt.node.impl;
 
 import com.mt.dto.TransactionDashboardDto;
+import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.feign.TransactionCore;
 import com.mt.node.TransactionService;
@@ -30,5 +31,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public CreatedTransaction createNewTransaction(String auth, NewTransactionRequest request) {
         return transactionCore.createNewTransaction(auth, request);
+    }
+
+    @Override
+    public TransactionDto getUserTransactionById(String auth, Long id) {
+        return transactionCore.getUserTransactionById(auth, id);
     }
 }

@@ -1,6 +1,7 @@
 package com.mt.controller;
 
 import com.mt.dto.TransactionDashboardDto;
+import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.request.NewTransactionRequest;
 import com.mt.service.TransactionService;
@@ -30,6 +31,11 @@ public class TransactionController {
                                                          @RequestParam Integer pageSize
     ) {
         return transactionService.getTransactions(auth, pageNumber, pageSize);
+    }
+
+    @GetMapping("/{id}")
+    public TransactionDto getTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id) {
+        return transactionService.getUserTransactionById(auth, id);
     }
 
     @GetMapping("/dashboard")

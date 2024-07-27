@@ -4,6 +4,7 @@ import com.mt.model.DailyAmountReport;
 import com.mt.model.transaction.Transaction;
 import com.mt.repository.view.DailyReportView;
 import com.mt.repository.view.TransactionDashboardView;
+import org.apache.el.stream.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -91,4 +92,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     """)
     BigDecimal getDayProfit(String email);
 
+    @Query("""
+        SELECT T FROM Transaction T
+        WHERE T.user.email = :email AND T.id = :id
+    """)
+    Transaction getUserTransactionById(String email, Long id);
 }

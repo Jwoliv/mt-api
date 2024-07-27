@@ -1,6 +1,7 @@
 package com.mt.service.impl;
 
 import com.mt.dto.TransactionDashboardDto;
+import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.mapper.TransactionMapper;
 import com.mt.repository.TransactionRepository;
@@ -41,6 +42,12 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public CreatedTransaction createNewTransaction(String auth, NewTransactionRequest request) {
         return createTransactionService.createNewTransaction(auth, request);
+    }
+
+    @Override
+    public TransactionDto getUserTransactionById(String auth, Long id) {
+        var transaction = transactionRepository.getUserTransactionById(provider.extractEmail(auth), id);
+        return transactionMapper.toTransactionDto(transaction);
     }
 
     private List<TransactionDashboardDto> getTransactionsPageable(String auth, Integer pageNumber, Integer pageSize) {

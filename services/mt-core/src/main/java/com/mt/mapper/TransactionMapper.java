@@ -1,6 +1,7 @@
 package com.mt.mapper;
 
 import com.mt.dto.TransactionDashboardDto;
+import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.model.User;
 import com.mt.model.transaction.Account;
@@ -39,4 +40,10 @@ public interface TransactionMapper {
     @Mapping(target = "date", expression = "java(request.getDate().atStartOfDay())")
     @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")
     Transaction mapToUsualTransactionToCreate(NewTransactionRequest request, User user, Category category, Account account);
+
+    @Mapping(target = "userId", source = "user.id")
+    @Mapping(target = "categoryId", source = "category.id")
+    @Mapping(target = "accountId", source = "account.id")
+    @Mapping(target = "receiverAccountId", source = "receiverAccount.id")
+    TransactionDto toTransactionDto(Transaction transaction);
 }

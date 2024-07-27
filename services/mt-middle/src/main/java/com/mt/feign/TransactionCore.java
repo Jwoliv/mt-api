@@ -2,6 +2,7 @@ package com.mt.feign;
 
 import com.mt.config.FeignConfig;
 import com.mt.dto.TransactionDashboardDto;
+import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.request.NewTransactionRequest;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -28,4 +29,7 @@ public interface TransactionCore {
 
     @GetMapping("/dashboard")
     List<TransactionDashboardDto> getTransactionsDashboard(@RequestHeader("Authorization") String auth);
+
+    @GetMapping("/{id}")
+    TransactionDto getUserTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id);
 }
