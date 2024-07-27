@@ -3,6 +3,7 @@ package com.mt.node.impl;
 import com.mt.feign.AccountCore;
 import com.mt.feign.ReportCore;
 import com.mt.feign.TransactionCore;
+import com.mt.mapper.DashboardMapper;
 import com.mt.node.DashboardService;
 import com.mt.response.DashboardResponse;
 import lombok.Setter;
@@ -18,6 +19,8 @@ public class DashboardServiceImpl implements DashboardService {
     private ReportCore reportCore;
     @Setter(onMethod = @__({@Autowired}))
     private TransactionCore transactionCore;
+    @Setter(onMethod = @__({@Autowired}))
+    private DashboardMapper dashboardMapper;
 
 
     @Override
@@ -25,10 +28,6 @@ public class DashboardServiceImpl implements DashboardService {
         var accounts = accountCore.getAccountsDashboard(authorization);
         var reports = reportCore.getDailyReports(authorization);
         var transactions = transactionCore.getTransactionsDashboard(authorization);
-        return DashboardResponse.builder()
-                .accounts(accounts)
-                .reports(reports)
-                .transactions(transactions)
-                .build();
+        return dashboardMapper.toDashboardResponse(accounts, reports, transactions);
     }
 }
