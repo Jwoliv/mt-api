@@ -13,7 +13,7 @@ import java.util.List;
 
 @FeignClient(
         name = "reports",
-        url="${feign.client.config.mt-core-service.path.reports}",
+        url="${mt-middle.endpoints.reports}",
         configuration = FeignConfig.class
 )
 public interface ReportCore {

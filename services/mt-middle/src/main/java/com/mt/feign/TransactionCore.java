@@ -11,7 +11,7 @@ import java.util.List;
 
 @FeignClient(
         name = "transactions",
-        url="${feign.client.config.mt-core-service.path.transaction}",
+        url="${mt-middle.endpoints.transaction}",
         configuration = FeignConfig.class
 )
 public interface TransactionCore {

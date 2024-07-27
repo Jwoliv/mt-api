@@ -11,7 +11,7 @@ import java.util.List;
 
 @FeignClient(
         name = "accounts",
-        url = "http://localhost:9050/api/v1/accounts",
+        url="${mt-middle.endpoints.accounts}",
         configuration = FeignConfig.class
 )
 public interface AccountCore {

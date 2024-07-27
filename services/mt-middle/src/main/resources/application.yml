@@ -8,9 +8,12 @@ feign:
         url: http://localhost:9050/api/v1
         connectTimeout: 5000
         readTimeout: 5000
-        path:
-          transaction: ${feign.client.config.mt-core-service.url}/transaction
-          accounts: ${feign.client.config.mt-core-service.url}/accounts
-          reports: ${feign.client.config.mt-core-service.url}/reports
-          category: ${feign.client.config.mt-core-service.url}/category
-          auth: ${feign.client.config.mt-core-service.url}/auth
+
+mt-middle:
+  core-service-url: ${feign.client.config.mt-core-service.url}
+  endpoints:
+    transaction: ${mt-middle.core-service-url}/transaction
+    accounts: ${mt-middle.core-service-url}/accounts
+    reports: ${mt-middle.core-service-url}/reports
+    category: ${mt-middle.core-service-url}/category
+    auth: ${mt-middle.core-service-url}/auth

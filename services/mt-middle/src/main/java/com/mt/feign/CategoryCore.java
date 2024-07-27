@@ -12,7 +12,7 @@ import java.util.List;
 
 @FeignClient(
         name = "categories",
-        url="${feign.client.config.mt-core-service.path.category}",
+        url="${mt-middle.endpoints.category}",
         configuration = FeignConfig.class
 )
 public interface CategoryCore {

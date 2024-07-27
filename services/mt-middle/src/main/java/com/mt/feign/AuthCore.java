@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
         name = "auth",
-        url = "${feign.client.config.mt-core-service.path.auth}",
+        url = "${mt-middle.endpoints.auth}",
         configuration = FeignConfig.class
 )
 public interface AuthCore {
