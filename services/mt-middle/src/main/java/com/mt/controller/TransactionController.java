@@ -37,9 +37,4 @@ public class TransactionController {
     public TransactionDto getTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id) {
         return transactionService.getUserTransactionById(auth, id);
     }
-
-    @GetMapping("/dashboard")
-    public List<TransactionDashboardDto> getTransactionsDashboard(@RequestHeader("Authorization") String auth) {
-        return transactionService.getTransactionsDashboard(auth);
-    }
 }

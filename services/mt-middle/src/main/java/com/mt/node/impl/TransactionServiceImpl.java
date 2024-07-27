@@ -19,11 +19,6 @@ public class TransactionServiceImpl implements TransactionService {
     private TransactionCore transactionCore;
 
     @Override
-    public List<TransactionDashboardDto> getTransactionsDashboard(String auth) {
-        return transactionCore.getTransactionsDashboard(auth);
-    }
-
-    @Override
     public List<TransactionDashboardDto> getTransactions(String auth, Integer pageNumber, Integer pageSize) {
         return transactionCore.getTransactions(auth, pageNumber, pageSize);
     }
