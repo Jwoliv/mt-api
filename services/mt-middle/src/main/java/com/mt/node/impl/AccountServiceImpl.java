@@ -37,4 +37,9 @@ public class AccountServiceImpl implements AccountService {
         return accountCore.getAccountsByEmailForNewTransaction(authorization);
     }
 
+    @Override
+    public AccountDto getUserAccountById(String auth, Long id) {
+        return accountCore.getUserAccountById(auth, id);
+    }
+
 }

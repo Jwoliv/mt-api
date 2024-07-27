@@ -23,6 +23,8 @@ public interface AccountCore {
                                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                            @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
+    @GetMapping("/{id}")
+    AccountDto getUserAccountById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id);
 
     @GetMapping("/form-data")
     List<AccountFormDto> getAccountsByEmailForNewTransaction(@RequestHeader("Authorization") String authorization);

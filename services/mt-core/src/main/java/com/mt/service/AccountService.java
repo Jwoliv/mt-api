@@ -11,4 +11,5 @@ public interface AccountService {
     List<AccountDto> getAllAccountsByEmail(String authorization, Integer pageNumber, Integer pageSize);
     List<AccountDto> getAccountsDashboard(String authorization);
     List<AccountFormDto> getAccountsByEmailForNewTransaction(String authorization);
+    AccountDto getUserAccountById(String email, Long id);
 }

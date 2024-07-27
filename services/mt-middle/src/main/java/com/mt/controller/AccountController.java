@@ -33,6 +33,12 @@ public class AccountController {
         return accountService.getAllAccountsByEmail(authorization, pageNumber, pageSize);
     }
 
+    @GetMapping("/{id}")
+    public AccountDto getUserAccountById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id) {
+        return accountService.getUserAccountById(auth, id);
+    }
+
+
     @GetMapping("/form-data")
     public List<AccountFormDto> getAccountsByEmailForNewTransaction(@RequestHeader("Authorization") String authorization) {
         return accountService.getAccountsByEmailForNewTransaction(authorization);

@@ -34,4 +34,10 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> getAccountsDashboard(String email);
 
     Optional<Account> findByName(String name);
+
+    @Query("""
+        SELECT A FROM Account A
+        WHERE A.user.email = :email AND A.id = :id
+    """)
+    Optional<Account> getUserAccountById(String email, Long id);
 }
