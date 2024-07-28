@@ -17,19 +17,21 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     @Query("""
         SELECT A FROM Account A
         WHERE A.user.email = :email
+        ORDER BY A.currentBalance DESC
     """)
     List<Account> findAccountsByEmail(@Param("email") String email, Pageable pageable);
 
     @Query("""
         SELECT A FROM Account A
         WHERE A.user.email = :email
+        ORDER BY A.currentBalance DESC
     """)
     List<Account> findAccountsByEmail(@Param("email") String email);
 
     @Query("""
         SELECT A FROM Account AS A
         WHERE A.user.email = :email
-        ORDER BY A.createdAt DESC
+        ORDER BY A.currentBalance DESC
         LIMIT 3
     """)
     List<Account> getAccountsDashboard(String email);
@@ -39,6 +41,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     @Query("""
         SELECT A FROM Account A
         WHERE A.user.email = :email AND A.id = :id
+        ORDER BY A.currentBalance DESC
     """)
     Optional<Account> getUserAccountById(String email, Long id);
 
