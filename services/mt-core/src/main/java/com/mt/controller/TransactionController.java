@@ -7,6 +7,7 @@ import com.mt.request.NewTransactionRequest;
 import com.mt.service.TransactionService;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,13 +19,6 @@ public class TransactionController {
     private TransactionService transactionService;
 
 
-    @PostMapping("/new")
-    public CreatedTransaction createNewTransaction(@RequestHeader("Authorization") String auth,
-                                                   @RequestBody NewTransactionRequest request
-    ) {
-        return transactionService.createNewTransaction(auth, request);
-    }
-
     @GetMapping
     public List<TransactionDashboardDto> getTransactions(@RequestHeader("Authorization") String auth,
                                                          @RequestParam Integer pageNumber,
@@ -33,9 +27,22 @@ public class TransactionController {
         return transactionService.getTransactions(auth, pageNumber, pageSize);
     }
 
+    @PostMapping("/new")
+    public CreatedTransaction createNewTransaction(@RequestHeader("Authorization") String auth,
+                                                   @RequestBody NewTransactionRequest request
+    ) {
+        return transactionService.createNewTransaction(auth, request);
+    }
+
     @GetMapping("/{id}")
     public TransactionDto getTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id) {
         return transactionService.getUserTransactionById(auth, id);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id) {
+        transactionService.deleteTransactionById(auth, id);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/dashboard")

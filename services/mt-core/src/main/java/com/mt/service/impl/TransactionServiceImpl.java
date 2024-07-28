@@ -13,6 +13,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public CreatedTransaction createNewTransaction(String auth, NewTransactionRequest request) {
         return createTransactionService.createNewTransaction(auth, request);
     }
@@ -48,6 +50,13 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDto getUserTransactionById(String auth, Long id) {
         var transaction = transactionRepository.getUserTransactionById(provider.extractEmail(auth), id);
         return transactionMapper.toTransactionDto(transaction);
+    }
+
+    @Override
+    @Transactional
+    public void deleteTransactionById(String auth, Long id) {
+        var email = provider.extractEmail(auth);
+        transactionRepository.deleteTransactionById(email, id);
     }
 
     private List<TransactionDashboardDto> getTransactionsPageable(String auth, Integer pageNumber, Integer pageSize) {

@@ -32,4 +32,9 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDto getUserTransactionById(String auth, Long id) {
         return transactionCore.getUserTransactionById(auth, id);
     }
+
+    @Override
+    public void deleteTransactionById(String auth, Long id) {
+        transactionCore.deleteTransactionById(auth, id);
+    }
 }

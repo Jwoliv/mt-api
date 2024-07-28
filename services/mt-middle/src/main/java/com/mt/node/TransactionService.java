@@ -11,4 +11,5 @@ public interface TransactionService {
     List<TransactionDashboardDto> getTransactions(String auth, Integer pageNumber, Integer pageSize);
     CreatedTransaction createNewTransaction(String auth, NewTransactionRequest request);
     TransactionDto getUserTransactionById(String auth, Long id);
+    void deleteTransactionById(String auth, Long id);
 }

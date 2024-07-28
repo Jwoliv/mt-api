@@ -7,6 +7,7 @@ import com.mt.node.TransactionService;
 import com.mt.request.NewTransactionRequest;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,4 +38,11 @@ public class TransactionController {
     public TransactionDto getTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id) {
         return transactionService.getUserTransactionById(auth, id);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id) {
+        transactionService.deleteTransactionById(auth, id);
+        return ResponseEntity.ok().build();
+    }
+
 }

@@ -32,4 +32,7 @@ public interface TransactionCore {
 
     @GetMapping("/{id}")
     TransactionDto getUserTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id);
+
+    @DeleteMapping("/{id}")
+    void deleteTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id);
 }
