@@ -8,6 +8,7 @@ import com.mt.repository.AccountRepository;
 import com.mt.repository.TransactionRepository;
 import com.mt.repository.UserRepository;
 import com.mt.request.NewAccountRequest;
+import com.mt.request.UpdateAccountRequest;
 import com.mt.security.UserAuthenticationProvider;
 import com.mt.service.AccountService;
 import jakarta.transaction.Transactional;
@@ -83,6 +84,15 @@ public class AccountServiceImpl implements AccountService {
         var email = provider.extractEmail(auth);
         transactionRepository.deleteAllByAccountId(id);
         accountRepository.deleteAccountById(email, id);
+    }
+
+    @Override
+    @Transactional
+    public AccountDto updateAccountById(String auth, Long id, UpdateAccountRequest request) {
+        var email = provider.extractEmail(auth);
+        accountRepository.updateAccountById(email, id, request);
+        var account = accountRepository.findById(id).orElse(null);
+        return accountMapper.toDto(account);
     }
 
 }

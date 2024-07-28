@@ -4,6 +4,7 @@ import com.mt.config.FeignConfig;
 import com.mt.dto.form_dto.AccountFormDto;
 import com.mt.dto.model_dto.AccountDto;
 import com.mt.request.NewAccountRequest;
+import com.mt.request.UpdateAccountRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,4 +35,10 @@ public interface AccountCore {
 
     @DeleteMapping("/{id}")
     void deleteAccountById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id);
+
+    @PatchMapping("/{id}")
+    AccountDto updateAccountById(@RequestHeader("Authorization") String auth,
+                                 @PathVariable("id") Long id,
+                                 @RequestBody UpdateAccountRequest request
+    );
 }

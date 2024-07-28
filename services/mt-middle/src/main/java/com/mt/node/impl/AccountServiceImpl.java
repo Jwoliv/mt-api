@@ -5,6 +5,7 @@ import com.mt.dto.model_dto.AccountDto;
 import com.mt.feign.AccountCore;
 import com.mt.node.AccountService;
 import com.mt.request.NewAccountRequest;
+import com.mt.request.UpdateAccountRequest;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteAccountById(String auth, Long id) {
         accountCore.deleteAccountById(auth, id);
+    }
+
+    @Override
+    public AccountDto updateAccountById(String auth, Long id, UpdateAccountRequest request) {
+        return accountCore.updateAccountById(auth, id, request);
     }
 
 }

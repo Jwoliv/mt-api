@@ -4,6 +4,7 @@ import com.mt.dto.form_dto.AccountFormDto;
 import com.mt.dto.model_dto.AccountDto;
 import com.mt.node.AccountService;
 import com.mt.request.NewAccountRequest;
+import com.mt.request.UpdateAccountRequest;
 import jakarta.websocket.server.PathParam;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,14 @@ public class AccountController {
     public ResponseEntity<?> deleteAccountById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id) {
         accountService.deleteAccountById(auth, id);
         return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{id}")
+    public AccountDto updateAccountById(@RequestHeader("Authorization") String auth,
+                                        @PathVariable("id") Long id,
+                                        @RequestBody UpdateAccountRequest request
+    ) {
+        return accountService.updateAccountById(auth, id, request);
     }
 
     @GetMapping("/form-data")

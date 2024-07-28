@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class MiddleExceptionHandler {
     @ExceptionHandler(FeignException.class)
     public ResponseEntity<String> handleFeignStatusException(FeignException e) {
+        System.out.println(e.getMessage());
         return ResponseEntity.status(e.status()).body(e.getMessage());
     }
 }

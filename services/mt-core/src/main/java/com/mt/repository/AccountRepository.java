@@ -1,6 +1,8 @@
 package com.mt.repository;
 
+import com.mt.dto.model_dto.AccountDto;
 import com.mt.model.transaction.Account;
+import com.mt.request.UpdateAccountRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -48,4 +50,12 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     @Modifying
     @Query("DELETE FROM Account A WHERE A.user.email = :email AND A.id = :id")
     void deleteAccountById(String email, Long id);
+
+    @Modifying
+    @Query("""
+        UPDATE Account A
+        SET A.currentBalance = :#{#request.balance}, A.name = :#{#request.name}
+        WHERE A.user.email = :email AND A.id = :id
+    """)
+    void updateAccountById(String email, Long id, UpdateAccountRequest request);
 }

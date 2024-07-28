@@ -3,6 +3,7 @@ package com.mt.service;
 import com.mt.dto.model_dto.AccountDto;
 import com.mt.dto.form_dto.AccountFormDto;
 import com.mt.request.NewAccountRequest;
+import com.mt.request.UpdateAccountRequest;
 
 import java.util.List;
 
@@ -13,4 +14,5 @@ public interface AccountService {
     List<AccountFormDto> getAccountsByEmailForNewTransaction(String authorization);
     AccountDto getUserAccountById(String email, Long id);
     void deleteAccountById(String auth, Long id);
+    AccountDto updateAccountById(String auth, Long id, UpdateAccountRequest request);
 }

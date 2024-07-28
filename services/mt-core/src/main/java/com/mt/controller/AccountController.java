@@ -3,6 +3,7 @@ package com.mt.controller;
 import com.mt.dto.model_dto.AccountDto;
 import com.mt.dto.form_dto.AccountFormDto;
 import com.mt.request.NewAccountRequest;
+import com.mt.request.UpdateAccountRequest;
 import com.mt.service.AccountService;
 import jakarta.websocket.server.PathParam;
 import lombok.Setter;
@@ -39,15 +40,23 @@ public class AccountController {
         return accountService.getUserAccountById(auth, id);
     }
 
-    @GetMapping("/form-data")
-    public List<AccountFormDto> getAccountsByEmailForNewTransaction(@RequestHeader("Authorization") String authorization) {
-        return accountService.getAccountsByEmailForNewTransaction(authorization);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAccountById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id) {
         accountService.deleteAccountById(auth, id);
         return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/{id}")
+    public AccountDto updateAccountById(@RequestHeader("Authorization") String auth,
+                                        @PathVariable("id") Long id,
+                                        @RequestBody UpdateAccountRequest request
+    ) {
+        return accountService.updateAccountById(auth, id, request);
+    }
+
+    @GetMapping("/form-data")
+    public List<AccountFormDto> getAccountsByEmailForNewTransaction(@RequestHeader("Authorization") String authorization) {
+        return accountService.getAccountsByEmailForNewTransaction(authorization);
     }
 
     @GetMapping("/dashboard")
