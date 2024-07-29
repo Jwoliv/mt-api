@@ -105,4 +105,11 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     @Modifying
     @Query("DELETE FROM Transaction T WHERE T.user.email = :email AND T.id = :id")
     void deleteTransactionById(String email, Long id);
+
+    @Query("""
+        SELECT NEW com.mt.repository.view.TransactionDashboardView(T.id, T.amount, T.type, T.category.name, T.account.name, T.date) 
+        FROM Transaction T 
+        WHERE T.account.id = :id AND T.user.email = :email
+    """)
+    List<TransactionDashboardView> getTransactionByAccountId(String email, Long id, Pageable pageable);
 }

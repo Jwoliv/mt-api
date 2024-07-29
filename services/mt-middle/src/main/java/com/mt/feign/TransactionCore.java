@@ -35,4 +35,10 @@ public interface TransactionCore {
 
     @DeleteMapping("/{id}")
     void deleteTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id);
+
+    @GetMapping("/account/{id}")
+    List<TransactionDashboardDto> getTransactionByAccountId(@RequestHeader("Authorization") String auth,
+                                                            @PathVariable("id") Long id,
+                                                            @RequestParam Integer pageNumber,
+                                                            @RequestParam Integer pageSize);
 }

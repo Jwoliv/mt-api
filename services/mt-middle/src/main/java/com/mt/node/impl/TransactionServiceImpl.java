@@ -37,4 +37,9 @@ public class TransactionServiceImpl implements TransactionService {
     public void deleteTransactionById(String auth, Long id) {
         transactionCore.deleteTransactionById(auth, id);
     }
+
+    @Override
+    public List<TransactionDashboardDto> getTransactionByAccountId(String auth, Long id, Integer pageNumber, Integer pageSize) {
+        return transactionCore.getTransactionByAccountId(auth, id, pageNumber, pageSize);
+    }
 }

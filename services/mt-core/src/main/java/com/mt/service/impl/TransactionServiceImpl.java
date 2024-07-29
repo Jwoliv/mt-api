@@ -59,6 +59,12 @@ public class TransactionServiceImpl implements TransactionService {
         transactionRepository.deleteTransactionById(email, id);
     }
 
+    @Override
+    public List<TransactionDashboardDto> getTransactionByAccountId(String auth, Long id, Integer pageNumber, Integer pageSize) {
+        var transactions = transactionRepository.getTransactionByAccountId(provider.extractEmail(auth), id, PageRequest.of(pageNumber, pageSize));
+        return transactionMapper.viewToDto(transactions);
+    }
+
     private List<TransactionDashboardDto> getTransactionsPageable(String auth, Integer pageNumber, Integer pageSize) {
         var email = provider.extractEmail(auth);
         var transactionDashboardViews = transactionRepository.getTransactionsDashboard(email, PageRequest.of(pageNumber, pageSize));

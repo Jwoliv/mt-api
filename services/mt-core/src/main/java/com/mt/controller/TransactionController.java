@@ -49,4 +49,12 @@ public class TransactionController {
     public List<TransactionDashboardDto> getTransactionsDashboard(@RequestHeader("Authorization") String auth) {
         return transactionService.getTransactionsDashboard(auth);
     }
+
+    @GetMapping("/account/{id}")
+    public List<TransactionDashboardDto> getTransactionByAccountId(@RequestHeader("Authorization") String auth,
+                                                                   @PathVariable("id") Long id,
+                                                                   @RequestParam Integer pageNumber,
+                                                                   @RequestParam Integer pageSize) {
+        return transactionService.getTransactionByAccountId(auth, id, pageNumber, pageSize);
+    }
 }
