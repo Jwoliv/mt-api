@@ -3,7 +3,6 @@ package com.mt.repository;
 import com.mt.model.DailyAmountReport;
 import com.mt.model.transaction.Transaction;
 import com.mt.repository.view.DailyReportView;
-import com.mt.repository.view.TransactionDashboardView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

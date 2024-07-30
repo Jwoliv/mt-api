@@ -7,7 +7,6 @@ import com.mt.model.User;
 import com.mt.model.transaction.Account;
 import com.mt.model.transaction.Category;
 import com.mt.model.transaction.Transaction;
-import com.mt.repository.view.TransactionDashboardView;
 import com.mt.request.NewTransactionRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

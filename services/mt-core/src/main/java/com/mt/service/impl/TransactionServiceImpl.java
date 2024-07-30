@@ -6,7 +6,6 @@ import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.mapper.TransactionMapper;
 import com.mt.model.transaction.Transaction;
 import com.mt.repository.TransactionRepository;
-import com.mt.repository.view.TransactionDashboardView;
 import com.mt.request.NewTransactionRequest;
 import com.mt.response.PageElementsResponse;
 import com.mt.security.UserAuthenticationProvider;
