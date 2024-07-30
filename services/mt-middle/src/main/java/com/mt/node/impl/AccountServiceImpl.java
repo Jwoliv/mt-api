@@ -6,6 +6,7 @@ import com.mt.feign.AccountCore;
 import com.mt.node.AccountService;
 import com.mt.request.NewAccountRequest;
 import com.mt.request.UpdateAccountRequest;
+import com.mt.response.PageElementsResponse;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountDto> getAllAccountsByEmail(String authorization, Integer pageNumber, Integer pageSize) {
-        return accountCore.getAllAccountsByEmail(authorization, pageNumber, pageSize);
+    public PageElementsResponse<AccountDto> getAllAccountsByEmailPageable(String authorization, Integer pageNumber, Integer pageSize) {
+        return accountCore.getAllAccountsByEmailPageable(authorization, pageNumber, pageSize);
     }
 
     @Override

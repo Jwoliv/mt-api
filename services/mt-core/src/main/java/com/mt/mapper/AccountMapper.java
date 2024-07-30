@@ -12,6 +12,4 @@ public interface AccountMapper {
     AccountDto toDto(Account account);
     List<AccountDto> toDto(List<Account> account);
     List<AccountFormDto> toFormDto(List<Account> accounts);
-
-    Account toEntity(AccountDto accountDto);
 }

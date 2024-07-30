@@ -5,6 +5,7 @@ import com.mt.dto.model_dto.AccountDto;
 import com.mt.node.AccountService;
 import com.mt.request.NewAccountRequest;
 import com.mt.request.UpdateAccountRequest;
+import com.mt.response.PageElementsResponse;
 import jakarta.websocket.server.PathParam;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,11 +29,11 @@ public class AccountController {
     }
 
     @GetMapping
-    public List<AccountDto> getAllAccountsByEmail(@RequestHeader("Authorization") String authorization,
-                                                  @PathParam(value = "pageNumber") Integer pageNumber,
-                                                  @PathParam(value = "pageSize") Integer pageSize
+    public PageElementsResponse<AccountDto> getAllAccountsByEmailPageable(@RequestHeader("Authorization") String authorization,
+                                                                          @PathParam(value = "pageNumber") Integer pageNumber,
+                                                                          @PathParam(value = "pageSize") Integer pageSize
     ) {
-        return accountService.getAllAccountsByEmail(authorization, pageNumber, pageSize);
+        return accountService.getAllAccountsByEmailPageable(authorization, pageNumber, pageSize);
     }
 
     @GetMapping("/{id}")

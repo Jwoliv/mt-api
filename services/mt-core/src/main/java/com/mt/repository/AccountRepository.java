@@ -2,6 +2,7 @@ package com.mt.repository;
 
 import com.mt.model.transaction.Account;
 import com.mt.request.UpdateAccountRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -20,7 +21,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
         WHERE A.user.email = :email
         ORDER BY A.currentBalance DESC
     """)
-    List<Account> findAccountsByEmail(@Param("email") String email, Pageable pageable);
+    Page<Account> findAccountsByEmail(@Param("email") String email, Pageable pageable);
 
     @Query("""
         SELECT A FROM Account A

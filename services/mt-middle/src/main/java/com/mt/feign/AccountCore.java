@@ -5,6 +5,7 @@ import com.mt.dto.form_dto.AccountFormDto;
 import com.mt.dto.model_dto.AccountDto;
 import com.mt.request.NewAccountRequest;
 import com.mt.request.UpdateAccountRequest;
+import com.mt.response.PageElementsResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public interface AccountCore {
     AccountDto createAccount(@RequestHeader("Authorization") String authorization, @RequestBody NewAccountRequest account);
 
     @GetMapping
-    List<AccountDto> getAllAccountsByEmail(@RequestHeader("Authorization") String authorization,
+    PageElementsResponse<AccountDto> getAllAccountsByEmailPageable(@RequestHeader("Authorization") String authorization,
                                            @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                            @RequestParam(value = "pageSize", required = false) Integer pageSize);
 

@@ -9,11 +9,13 @@ import com.mt.repository.TransactionRepository;
 import com.mt.repository.UserRepository;
 import com.mt.request.NewAccountRequest;
 import com.mt.request.UpdateAccountRequest;
+import com.mt.response.PageElementsResponse;
 import com.mt.security.UserAuthenticationProvider;
 import com.mt.service.AccountService;
 import jakarta.transaction.Transactional;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +56,14 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<AccountDto> getAllAccountsByEmail(String authorization, Integer pageNumber, Integer pageSize) {
+    public PageElementsResponse<AccountDto> getAllAccountsByEmailPageable(String authorization, Integer pageNumber, Integer pageSize) {
         var email = provider.extractEmail(authorization);
-        return accountMapper.toDto(accountRepository.findAccountsByEmail(email, PageRequest.of(pageNumber, pageSize)));
+        var accounts = accountRepository.findAccountsByEmail(email, PageRequest.of(pageNumber, pageSize));
+        return PageElementsResponse.<AccountDto>builder()
+                .elements(accountMapper.toDto(accounts.getContent()))
+                .isPrevPage(pageNumber > 0)
+                .isNextPage(accounts.getTotalPages() > (pageNumber + 1))
+                .build();
     }
 
     @Override
