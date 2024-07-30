@@ -4,6 +4,7 @@ import com.mt.model.DailyAmountReport;
 import com.mt.model.transaction.Transaction;
 import com.mt.repository.view.DailyReportView;
 import com.mt.repository.view.TransactionDashboardView;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -34,12 +35,11 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
                                              @Param("endOfDay") LocalDateTime endOfDay);
 
     @Query("""
-        SELECT NEW com.mt.repository.view.TransactionDashboardView(T.id, T.amount, T.type, T.category.name, T.account.name, T.date)
-        FROM Transaction T
+        SELECT T FROM Transaction T
         WHERE T.user.email = :email
         ORDER BY T.createdAt DESC
     """)
-    List<TransactionDashboardView> getTransactionsDashboard(@Param("email") String email, Pageable pageable);
+    Page<Transaction> getTransactionsPageable(@Param("email") String email, Pageable pageable);
 
 
     @Query("""
@@ -107,9 +107,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     void deleteTransactionById(String email, Long id);
 
     @Query("""
-        SELECT NEW com.mt.repository.view.TransactionDashboardView(T.id, T.amount, T.type, T.category.name, T.account.name, T.date) 
-        FROM Transaction T 
+        SELECT T FROM Transaction T
         WHERE T.account.id = :id AND T.user.email = :email
+        ORDER BY T.createdAt DESC
     """)
-    List<TransactionDashboardView> getTransactionByAccountId(String email, Long id, Pageable pageable);
+    List<Transaction> getTransactionByAccountId(String email, Long id, Pageable pageable);
 }

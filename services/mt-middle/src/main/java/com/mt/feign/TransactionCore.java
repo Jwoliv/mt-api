@@ -5,6 +5,7 @@ import com.mt.dto.TransactionDashboardDto;
 import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.request.NewTransactionRequest;
+import com.mt.response.PageElementsResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +23,9 @@ public interface TransactionCore {
     );
 
     @GetMapping
-    List<TransactionDashboardDto> getTransactions(@RequestHeader("Authorization") String auth,
-                                                  @RequestParam Integer pageNumber,
-                                                  @RequestParam Integer pageSize
+    PageElementsResponse<TransactionDashboardDto> getTransactionsPageable(@RequestHeader("Authorization") String auth,
+                                                                          @RequestParam Integer pageNumber,
+                                                                          @RequestParam Integer pageSize
     );
 
     @GetMapping("/dashboard")

@@ -17,7 +17,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", imports = LocalDateTime.class)
 public interface TransactionMapper {
-    List<TransactionDashboardDto> viewToDto(List<TransactionDashboardView> transactions);
+    List<TransactionDashboardDto> mapToDashboardDto(List<Transaction> transactions);
 
     @Mapping(target = "accountName", source = "account.name")
     @Mapping(target = "categoryName", source = "category.name")

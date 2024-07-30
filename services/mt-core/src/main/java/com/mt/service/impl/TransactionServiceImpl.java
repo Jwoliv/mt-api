@@ -4,14 +4,19 @@ import com.mt.dto.TransactionDashboardDto;
 import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.mapper.TransactionMapper;
+import com.mt.model.transaction.Transaction;
 import com.mt.repository.TransactionRepository;
+import com.mt.repository.view.TransactionDashboardView;
 import com.mt.request.NewTransactionRequest;
+import com.mt.response.PageElementsResponse;
 import com.mt.security.UserAuthenticationProvider;
 import com.mt.service.CreateTransactionService;
 import com.mt.service.TransactionService;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,12 +37,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<TransactionDashboardDto> getTransactionsDashboard(String auth) {
-        return getTransactionsPageable(auth, 0, 3);
-    }
-
-    @Override
-    public List<TransactionDashboardDto> getTransactions(String auth, Integer pageNumber, Integer pageSize) {
-        return getTransactionsPageable(auth, pageNumber, pageSize);
+        var transaction = getTransactionPageable(auth, PageRequest.of(0, 3)).getContent();
+        return transactionMapper.mapToDashboardDto(transaction);
     }
 
     @Override
@@ -61,13 +62,23 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public List<TransactionDashboardDto> getTransactionByAccountId(String auth, Long id, Integer pageNumber, Integer pageSize) {
-        var transactions = transactionRepository.getTransactionByAccountId(provider.extractEmail(auth), id, PageRequest.of(pageNumber, pageSize));
-        return transactionMapper.viewToDto(transactions);
+        var email = provider.extractEmail(auth);
+        var transactions = transactionRepository.getTransactionByAccountId(email, id, PageRequest.of(pageNumber, pageSize));
+        return transactionMapper.mapToDashboardDto(transactions);
     }
 
-    private List<TransactionDashboardDto> getTransactionsPageable(String auth, Integer pageNumber, Integer pageSize) {
+    @Override
+    public PageElementsResponse<TransactionDashboardDto> getTransactionsPageable(String auth, Integer pageNumber, Integer pageSize) {
+        var transactionsPageable = getTransactionPageable(auth, PageRequest.of(pageNumber, pageSize));
+        return PageElementsResponse.<TransactionDashboardDto>builder()
+                .elements(transactionMapper.mapToDashboardDto(transactionsPageable.getContent()))
+                .isPrevPage(pageNumber > 0)
+                .isNextPage(transactionsPageable.getTotalPages() > (pageNumber + 1))
+                .build();
+    }
+
+    private Page<Transaction> getTransactionPageable(String auth, Pageable pageable) {
         var email = provider.extractEmail(auth);
-        var transactionDashboardViews = transactionRepository.getTransactionsDashboard(email, PageRequest.of(pageNumber, pageSize));
-        return transactionMapper.viewToDto(transactionDashboardViews);
+        return transactionRepository.getTransactionsPageable(email, pageable);
     }
 }

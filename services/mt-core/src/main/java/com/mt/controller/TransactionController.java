@@ -4,6 +4,7 @@ import com.mt.dto.TransactionDashboardDto;
 import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.request.NewTransactionRequest;
+import com.mt.response.PageElementsResponse;
 import com.mt.service.TransactionService;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,11 @@ public class TransactionController {
 
 
     @GetMapping
-    public List<TransactionDashboardDto> getTransactions(@RequestHeader("Authorization") String auth,
-                                                         @RequestParam Integer pageNumber,
-                                                         @RequestParam Integer pageSize
+    public PageElementsResponse<TransactionDashboardDto> getTransactionsPageable(@RequestHeader("Authorization") String auth,
+                                                                                 @RequestParam Integer pageNumber,
+                                                                                 @RequestParam Integer pageSize
     ) {
-        return transactionService.getTransactions(auth, pageNumber, pageSize);
+        return transactionService.getTransactionsPageable(auth, pageNumber, pageSize);
     }
 
     @PostMapping("/new")

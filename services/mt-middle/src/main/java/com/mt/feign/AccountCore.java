@@ -22,8 +22,8 @@ public interface AccountCore {
 
     @GetMapping
     PageElementsResponse<AccountDto> getAllAccountsByEmailPageable(@RequestHeader("Authorization") String authorization,
-                                           @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
-                                           @RequestParam(value = "pageSize", required = false) Integer pageSize);
+                                                                   @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
+                                                                   @RequestParam(value = "pageSize", required = false) Integer pageSize);
 
     @GetMapping("/{id}")
     AccountDto getUserAccountById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id);

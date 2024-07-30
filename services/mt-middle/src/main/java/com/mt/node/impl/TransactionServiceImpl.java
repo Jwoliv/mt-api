@@ -6,6 +6,7 @@ import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.feign.TransactionCore;
 import com.mt.node.TransactionService;
 import com.mt.request.NewTransactionRequest;
+import com.mt.response.PageElementsResponse;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ public class TransactionServiceImpl implements TransactionService {
     private TransactionCore transactionCore;
 
     @Override
-    public List<TransactionDashboardDto> getTransactions(String auth, Integer pageNumber, Integer pageSize) {
-        return transactionCore.getTransactions(auth, pageNumber, pageSize);
+    public PageElementsResponse<TransactionDashboardDto> getTransactionsPageable(String auth, Integer pageNumber, Integer pageSize) {
+        return transactionCore.getTransactionsPageable(auth, pageNumber, pageSize);
     }
 
     @Override
