@@ -111,5 +111,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         WHERE T.account.id = :id AND T.user.email = :email
         ORDER BY T.createdAt DESC
     """)
-    List<Transaction> getTransactionByAccountId(String email, Long id, Pageable pageable);
+    Page<Transaction> getTransactionByAccountId(String email, Long id, Pageable pageable);
 }

@@ -61,20 +61,24 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionDashboardDto> getTransactionByAccountId(String auth, Long id, Integer pageNumber, Integer pageSize) {
+    public PageElementsResponse<TransactionDashboardDto> getTransactionByAccountId(String auth, Long id, Integer pageNumber, Integer pageSize) {
         var email = provider.extractEmail(auth);
-        var transactions = transactionRepository.getTransactionByAccountId(email, id, PageRequest.of(pageNumber, pageSize));
-        return transactionMapper.mapToDashboardDto(transactions);
+        var transactionsPageable = transactionRepository.getTransactionByAccountId(email, id, PageRequest.of(pageNumber, pageSize));
+        return buildPageTransactions(pageNumber, transactionsPageable);
     }
 
-    @Override
-    public PageElementsResponse<TransactionDashboardDto> getTransactionsPageable(String auth, Integer pageNumber, Integer pageSize) {
-        var transactionsPageable = getTransactionPageable(auth, PageRequest.of(pageNumber, pageSize));
+    private PageElementsResponse<TransactionDashboardDto> buildPageTransactions(Integer pageNumber, Page<Transaction> transactionsPageable) {
         return PageElementsResponse.<TransactionDashboardDto>builder()
                 .elements(transactionMapper.mapToDashboardDto(transactionsPageable.getContent()))
                 .isPrevPage(pageNumber > 0)
                 .isNextPage(transactionsPageable.getTotalPages() > (pageNumber + 1))
                 .build();
+    }
+
+    @Override
+    public PageElementsResponse<TransactionDashboardDto> getTransactionsPageable(String auth, Integer pageNumber, Integer pageSize) {
+        var transactionsPageable = getTransactionPageable(auth, PageRequest.of(pageNumber, pageSize));
+        return buildPageTransactions(pageNumber, transactionsPageable);
     }
 
     private Page<Transaction> getTransactionPageable(String auth, Pageable pageable) {

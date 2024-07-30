@@ -40,7 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionDashboardDto> getTransactionByAccountId(String auth, Long id, Integer pageNumber, Integer pageSize) {
+    public PageElementsResponse<TransactionDashboardDto> getTransactionByAccountId(String auth, Long id, Integer pageNumber, Integer pageSize) {
         return transactionCore.getTransactionByAccountId(auth, id, pageNumber, pageSize);
     }
 }
