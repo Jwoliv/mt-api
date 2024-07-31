@@ -4,6 +4,7 @@ import com.mt.model.DailyAmountReport;
 import com.mt.model.transaction.Transaction;
 import com.mt.repository.view.DailyReportView;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -111,4 +112,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         ORDER BY T.createdAt DESC
     """)
     Page<Transaction> getTransactionByAccountId(String email, Long id, Pageable pageable);
+
+    @Query("SELECT T FROM Transaction T WHERE T.user.email = :email AND T.category.id = :categoryId")
+    Page<Transaction> getTransactionsPageableByCategoryId(String email, PageRequest pageable, Long categoryId);
 }
