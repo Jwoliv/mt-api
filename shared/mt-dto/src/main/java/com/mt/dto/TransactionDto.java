@@ -16,8 +16,11 @@ public class TransactionDto {
     private TypeTransaction type;
     private Long userId;
     private Long categoryId;
+    private String categoryName;
     private Long accountId;
+    private String accountName;
     private Long receiverAccountId;
+    private String receiverAccountName;
     private String sender;
     private String note;
     private LocalDateTime createdAt;
