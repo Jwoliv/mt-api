@@ -5,6 +5,7 @@ import com.mt.dto.TransactionDashboardDto;
 import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.request.NewTransactionRequest;
+import com.mt.request.UpdatedTransactionRequest;
 import com.mt.response.PageElementsResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,9 @@ public interface TransactionCore {
 
     @GetMapping("/{id}")
     TransactionDto getUserTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id);
+
+    @PatchMapping("/{id}")
+    TransactionDto updateTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id, @RequestBody UpdatedTransactionRequest transaction);
 
     @DeleteMapping("/{id}")
     void deleteTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id);

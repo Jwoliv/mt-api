@@ -12,6 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 
@@ -69,8 +70,8 @@ public class TransactionRunner implements CommandLineRunner {
 
             LocalDateTime localDateTime = LocalDateTime.of(2024, month, day, 0, 0,0);
             DailyAmountReport amountReport = DailyAmountReport.builder()
-                    .amount(initAmount)
-                    .date(localDateTime)
+//                    .amount(initAmount)
+//                    .date(localDateTime)
                     .user(userRepository.findByEmail("aaa1@gmail.com").orElse(null))
                     .build();
             isExample = !isExample;
@@ -81,9 +82,9 @@ public class TransactionRunner implements CommandLineRunner {
             for (int j = 1; j < 24; j++) {
                 Transaction transaction = new Transaction();
 
-                localDateTime = LocalDateTime.of(2024, 7, j, 0, 0,0);
-
-                transaction.setDate(localDateTime);
+//                localDateTime = LocalDate.of(2024, 7, j);
+//
+//                transaction.setDate(localDateTime);
                 transaction.setAmount(BigDecimal.valueOf(Math.random() * 100));
                 transaction.setType(Math.random() < 0.5 ? TypeTransaction.SPENDING : TypeTransaction.EARNING);
                 transaction.setUser(userRepository.findByEmail("aaa1@gmail.com").orElse(null));

@@ -3,6 +3,7 @@ package com.mt.repository;
 import com.mt.model.DailyAmountReport;
 import com.mt.model.transaction.Transaction;
 import com.mt.repository.view.DailyReportView;
+import com.mt.request.UpdatedTransactionRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -31,8 +32,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         ORDER BY T.date DESC
     """)
     List<DailyReportView> getDailyUserReport(@Param("email") String email,
-                                             @Param("startOfDay") LocalDateTime startOfDay,
-                                             @Param("endOfDay") LocalDateTime endOfDay);
+                                             @Param("startOfDay") LocalDate startOfDay,
+                                             @Param("endOfDay") LocalDate endOfDay);
 
     @Query("""
         SELECT T FROM Transaction T
@@ -48,8 +49,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         ORDER BY DAR.date DESC
     """)
     List<DailyAmountReport> getDailyAmountReports(@Param("email") String email,
-                                                  @Param("startOfDay") LocalDateTime startOfDay,
-                                                  @Param("endOfDay") LocalDateTime endOfDay,
+                                                  @Param("startOfDay") LocalDate startOfDay,
+                                                  @Param("endOfDay") LocalDate endOfDay,
                                                   Pageable pageable);
 
     @Query("""
@@ -115,4 +116,20 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     @Query("SELECT T FROM Transaction T WHERE T.user.email = :email AND T.category.id = :categoryId")
     Page<Transaction> getTransactionsPageableByCategoryId(String email, PageRequest pageable, Long categoryId);
+
+    @Modifying
+    @Query("""
+        UPDATE Transaction t
+        SET t.date = :#{#request.date},
+            t.amount = :#{#request.amount},
+            t.type = :#{#request.type},
+            t.category.id = :#{#request.categoryId},
+            t.account.id = :#{#request.accountId},
+            t.receiverAccount.id = :#{#request.receiverAccountId},
+            t.sender = :#{#request.sender},
+            t.note = :#{#request.note},
+            t.updatedAt = :#{#request.updatedAt}
+        WHERE t.id = :#{#request.id}
+    """)
+    void updateTransaction(@Param("request") UpdatedTransactionRequest request);
 }

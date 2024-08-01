@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -47,7 +48,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<DailyReportDto> getDailyReports(String authorization) {
-        var currentDate = LocalDateTime.now();
+        var currentDate = LocalDate.now();
         var email = provider.extractEmail(authorization);
         var reports = transactionRepository.getDailyUserReport(email, currentDate.minusDays(DEFAULT_STOCK_DAYS), currentDate);
         return reportMapper.toDailyReportDto(reports);
@@ -55,7 +56,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public List<DailyAmountReportDto> getDailyAmountReports(String authorization) {
-        var currentDate = LocalDateTime.now();
+        var currentDate = LocalDate.now();
         var startDate = currentDate.minusDays(DEFAULT_AMOUNT_DAILY_REPORTS);
         var email = provider.extractEmail(authorization);
         var reports = transactionRepository.getDailyAmountReports(email, startDate, currentDate, PageRequest.of(0, 60)).reversed();

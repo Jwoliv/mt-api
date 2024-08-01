@@ -8,9 +8,11 @@ import com.mt.model.transaction.Account;
 import com.mt.model.transaction.Category;
 import com.mt.model.transaction.Transaction;
 import com.mt.request.NewTransactionRequest;
+import com.mt.request.UpdatedTransactionRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public interface TransactionMapper {
     @Mapping(target = "type", source = "request.type")
     @Mapping(target = "user", source = "user")
     @Mapping(target = "receiverAccount", source = "receiverAccount")
-    @Mapping(target = "date", expression = "java(request.getDate().atStartOfDay())")
+    @Mapping(target = "date", expression = "java(request.getDate())")
     @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")
     Transaction mapToTransferTransactionToCreate(NewTransactionRequest request, Account account, Account receiverAccount, User user, Category category);
 
@@ -41,7 +43,7 @@ public interface TransactionMapper {
     @Mapping(target = "receiverAccount", ignore = true)
     @Mapping(target = "type", source = "request.type")
     @Mapping(target = "user", source = "user")
-    @Mapping(target = "date", expression = "java(request.getDate().atStartOfDay())")
+    @Mapping(target = "date", expression = "java(request.getDate())")
     @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")
     Transaction mapToUsualTransactionToCreate(NewTransactionRequest request, User user, Category category, Account account);
 
@@ -53,4 +55,11 @@ public interface TransactionMapper {
     @Mapping(target = "accountName", source = "account.name")
     @Mapping(target = "receiverAccountName", source = "receiverAccount.name")
     TransactionDto toTransactionDto(Transaction transaction);
+
+    @Mapping(target = "category.id", source = "categoryId")
+    @Mapping(target = "account.id", source = "accountId")
+    @Mapping(target = "category.name", source = "categoryName")
+    @Mapping(target = "account.name", source = "accountName")
+    @Mapping(target = "updatedAt", expression = "java(LocalDateTime.now())")
+    Transaction toMapUpdatedUsualTransaction(UpdatedTransactionRequest transaction);
 }

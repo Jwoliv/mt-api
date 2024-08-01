@@ -1,4 +1,4 @@
-package com.mt.dto;
+package com.mt.request;
 
 import com.mt.enums.TypeTransaction;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class TransactionDto {
+public class UpdatedTransactionRequest {
     private Long id;
     private LocalDate date;
     private BigDecimal amount;

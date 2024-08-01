@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -11,5 +12,5 @@ import java.time.LocalDateTime;
 public class DailyReportDto {
     private BigDecimal earning;
     private BigDecimal spending;
-    private LocalDateTime date;
+    private LocalDate date;
 }

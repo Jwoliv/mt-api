@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,5 +18,5 @@ public class TransactionDashboardView {
     private TypeTransaction type;
     private String categoryName;
     private String accountName;
-    private LocalDateTime date;
+    private LocalDate date;
 }

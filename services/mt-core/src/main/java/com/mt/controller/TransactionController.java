@@ -4,6 +4,7 @@ import com.mt.dto.TransactionDashboardDto;
 import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.request.NewTransactionRequest;
+import com.mt.request.UpdatedTransactionRequest;
 import com.mt.response.PageElementsResponse;
 import com.mt.service.TransactionService;
 import lombok.Setter;
@@ -38,6 +39,12 @@ public class TransactionController {
     @GetMapping("/{id}")
     public TransactionDto getTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id) {
         return transactionService.getUserTransactionById(auth, id);
+    }
+
+    @PatchMapping("/{id}")
+    public TransactionDto updateTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id,
+                                                @RequestBody UpdatedTransactionRequest transaction) {
+        return transactionService.updateTransactionById(auth, id, transaction);
     }
 
     @DeleteMapping("/{id}")

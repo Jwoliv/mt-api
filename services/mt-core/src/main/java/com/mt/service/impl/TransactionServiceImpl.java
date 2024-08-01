@@ -3,15 +3,18 @@ package com.mt.service.impl;
 import com.mt.dto.TransactionDashboardDto;
 import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
+import com.mt.enums.TypeTransaction;
 import com.mt.mapper.TransactionMapper;
 import com.mt.model.transaction.Transaction;
 import com.mt.repository.TransactionRepository;
 import com.mt.request.NewTransactionRequest;
+import com.mt.request.UpdatedTransactionRequest;
 import com.mt.response.PageElementsResponse;
 import com.mt.security.UserAuthenticationProvider;
 import com.mt.service.CreateTransactionService;
 import com.mt.service.TransactionService;
 import lombok.Setter;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -64,6 +68,19 @@ public class TransactionServiceImpl implements TransactionService {
         var email = provider.extractEmail(auth);
         var transactionsPageable = transactionRepository.getTransactionByAccountId(email, id, PageRequest.of(pageNumber, pageSize));
         return buildPageTransactions(pageNumber, transactionsPageable);
+    }
+
+    @Override
+    @Transactional
+    public TransactionDto updateTransactionById(String auth, Long id, UpdatedTransactionRequest transactionRequest) {
+        var email = provider.extractEmail(auth);
+        var transactionDB = transactionRepository.getUserTransactionById(email, id);
+        if (ObjectUtils.notEqual(transactionRequest.getType(), TypeTransaction.TRANSFER) && Objects.nonNull(transactionDB)) {
+
+            transactionRepository.updateTransaction(transactionRequest);
+            return transactionMapper.toTransactionDto(transactionRepository.findById(id).orElse(null));
+        }
+        return null;
     }
 
     private PageElementsResponse<TransactionDashboardDto> buildPageTransactions(Integer pageNumber, Page<Transaction> transactionsPageable) {
