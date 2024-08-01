@@ -8,11 +8,9 @@ import com.mt.model.transaction.Account;
 import com.mt.model.transaction.Category;
 import com.mt.model.transaction.Transaction;
 import com.mt.request.NewTransactionRequest;
-import com.mt.request.UpdatedTransactionRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
