@@ -73,14 +73,23 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public TransactionDto updateTransactionById(String auth, Long id, UpdatedTransactionRequest transactionRequest) {
-        var email = provider.extractEmail(auth);
-        var transactionDB = transactionRepository.getUserTransactionById(email, id);
-        if (ObjectUtils.notEqual(transactionRequest.getType(), TypeTransaction.TRANSFER) && Objects.nonNull(transactionDB)) {
-
-            transactionRepository.updateTransaction(transactionRequest);
-            return transactionMapper.toTransactionDto(transactionRepository.findById(id).orElse(null));
+        if (updateTransaction(auth, id, transactionRequest)) {
+            var transaction = transactionRepository.findById(id).orElse(null);
+            return transactionMapper.toTransactionDto(transaction);
         }
         return null;
+    }
+
+    @Transactional
+    public Boolean updateTransaction(String auth, Long id, UpdatedTransactionRequest request) {
+        String email = provider.extractEmail(auth);
+        Transaction transactionDB = transactionRepository.getUserTransactionById(email, id);
+        if (ObjectUtils.notEqual(request.getType(), TypeTransaction.TRANSFER) && transactionDB != null) {
+            request.setId(id);
+            transactionRepository.updateTransaction(request);
+            return true;
+        }
+        return false;
     }
 
     private PageElementsResponse<TransactionDashboardDto> buildPageTransactions(Integer pageNumber, Page<Transaction> transactionsPageable) {

@@ -55,11 +55,4 @@ public interface TransactionMapper {
     @Mapping(target = "accountName", source = "account.name")
     @Mapping(target = "receiverAccountName", source = "receiverAccount.name")
     TransactionDto toTransactionDto(Transaction transaction);
-
-    @Mapping(target = "category.id", source = "categoryId")
-    @Mapping(target = "account.id", source = "accountId")
-    @Mapping(target = "category.name", source = "categoryName")
-    @Mapping(target = "account.name", source = "accountName")
-    @Mapping(target = "updatedAt", expression = "java(LocalDateTime.now())")
-    Transaction toMapUpdatedUsualTransaction(UpdatedTransactionRequest transaction);
 }
