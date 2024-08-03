@@ -33,13 +33,19 @@ public class TransactionDbServiceImpl implements TransactionDbService {
     @Override
     @Transactional
     public CreatedTransaction createNewTransaction(String auth, ChangeTransactionRequest request) {
-        return changeTransaction(auth, request, (req, email) -> generatorTransaction.getTransaction(req, email, TypeOperation.CREATE), transactionMapper::mapToCreateTransaction);
+        return changeTransaction(auth, request, (req, email) ->
+                generatorTransaction.getTransaction(req, email, TypeOperation.CREATE),
+                transactionMapper::mapToCreateTransaction
+        );
 
     }
 
     @Override
     public TransactionDto updateTransaction(String auth, ChangeTransactionRequest request) {
-        return changeTransaction(auth, request, (req, email) -> generatorTransaction.getTransaction(req, email, TypeOperation.UPDATE), transactionMapper::toTransactionDto);
+        return changeTransaction(auth, request, (req, email) ->
+                generatorTransaction.getTransaction(req, email, TypeOperation.UPDATE),
+                transactionMapper::toTransactionDto
+        );
 
     }
 
@@ -53,6 +59,5 @@ public class TransactionDbServiceImpl implements TransactionDbService {
         var savedTransaction = transactionRepository.save(transaction);
         return mapperFunction.apply(savedTransaction);
     }
-
 
 }

@@ -69,6 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public TransactionDto updateTransactionById(String auth, Long id, ChangeTransactionRequest request) {
+        request.setId(id);
         return transactionDbService.updateTransaction(auth, request);
     }
 

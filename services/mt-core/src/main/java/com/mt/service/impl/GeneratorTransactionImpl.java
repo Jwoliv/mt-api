@@ -53,7 +53,7 @@ public class GeneratorTransactionImpl implements GeneratorTransaction {
     private Transaction updateUsualTransaction(ChangeTransactionRequest request, String email) {
         var data = fetchTransactionData(request, email);
         var transactionDb = transactionRepository.getUserTransactionById(email, request.getId());
-        var transaction = transactionMapper.mapToUsualTransactionToUpdate(request, data.user, data.category, data.senderAccount);
+        var transaction = transactionMapper.mapToUsualTransactionToUpdate(request, data.user, data.category, data.senderAccount, transactionDb.getCreatedAt());
         var differAmount = transactionDb.getAmount().subtract(request.getAmount());
         updateAccountByUsualTransactions(differAmount, request.getType(), data.account);
         return transactionRepository.save(transaction);
@@ -76,8 +76,8 @@ public class GeneratorTransactionImpl implements GeneratorTransaction {
         var transactionDb = transactionRepository.findById(request.getId());
         if (transactionDb.isEmpty()) return null;
         var data = fetchTransactionData(request, email);
-        var transaction = transactionMapper.mapToTransferTransactionToCreate(
-                request, data.senderAccount, data.receiverAccount, data.user, data.category
+        var transaction = transactionMapper.mapToTransferTransactionToUpdate(
+                request, data.senderAccount, data.receiverAccount, data.user, data.category, transactionDb.get().getCreatedAt()
         );
         updateAccountsByTransferTransactionUpdate(transaction, data.senderAccount, data.receiverAccount, transactionDb.get());
         return transactionRepository.save(transaction);

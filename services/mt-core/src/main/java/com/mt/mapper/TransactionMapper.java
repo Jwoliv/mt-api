@@ -11,6 +11,7 @@ import com.mt.request.ChangeTransactionRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -37,13 +38,13 @@ public interface TransactionMapper {
     Transaction mapToTransferTransactionToCreate(ChangeTransactionRequest request, Account account, Account receiverAccount, User user, Category category);
 
     @Mapping(target = "id", source = "request.id")
-    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "createdAt", source = "createdAt")
     @Mapping(target = "type", source = "request.type")
     @Mapping(target = "user", source = "user")
     @Mapping(target = "receiverAccount", source = "receiverAccount")
     @Mapping(target = "date", expression = "java(request.getDate())")
     @Mapping(target = "updatedAt", expression = "java(LocalDateTime.now())")
-    Transaction mapToTransferTransactionToUpdate(ChangeTransactionRequest request, Account account, Account receiverAccount, User user, Category category);
+    Transaction mapToTransferTransactionToUpdate(ChangeTransactionRequest request, Account account, Account receiverAccount, User user, Category category, LocalDateTime createdAt);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
@@ -56,11 +57,12 @@ public interface TransactionMapper {
 
     @Mapping(target = "id", source = "request.id")
     @Mapping(target = "receiverAccount", ignore = true)
+    @Mapping(target = "createdAt", source = "createdAt")
     @Mapping(target = "type", source = "request.type")
     @Mapping(target = "user", source = "user")
     @Mapping(target = "date", expression = "java(request.getDate())")
     @Mapping(target = "updatedAt", expression = "java(LocalDateTime.now())")
-    Transaction mapToUsualTransactionToUpdate(ChangeTransactionRequest request, User user, Category category, Account account);
+    Transaction mapToUsualTransactionToUpdate(ChangeTransactionRequest request, User user, Category category, Account account, LocalDateTime createdAt);
 
     @Mapping(target = "userId", source = "user.id")
     @Mapping(target = "categoryId", source = "category.id")
