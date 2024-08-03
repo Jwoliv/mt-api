@@ -57,6 +57,7 @@ public interface TransactionMapper {
     @Mapping(target = "id", source = "request.id")
     @Mapping(target = "receiverAccount", ignore = true)
     @Mapping(target = "createdAt", source = "createdAt")
+    @Mapping(target = "account", source = "account")
     @Mapping(target = "type", source = "request.type")
     @Mapping(target = "user", source = "user")
     @Mapping(target = "date", expression = "java(request.getDate())")
