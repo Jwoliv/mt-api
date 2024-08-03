@@ -6,7 +6,6 @@ import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.feign.TransactionCore;
 import com.mt.node.TransactionService;
 import com.mt.request.ChangeTransactionRequest;
-import com.mt.request.UpdatedTransactionRequest;
 import com.mt.response.PageElementsResponse;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +43,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDto updateTransactionById(String auth, Long id, UpdatedTransactionRequest transaction) {
+    public TransactionDto updateTransactionById(String auth, Long id, ChangeTransactionRequest transaction) {
         return transactionCore.updateTransactionById(auth, id, transaction);
     }
 }

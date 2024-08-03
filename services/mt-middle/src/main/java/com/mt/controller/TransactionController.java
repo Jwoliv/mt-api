@@ -5,7 +5,6 @@ import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.node.TransactionService;
 import com.mt.request.ChangeTransactionRequest;
-import com.mt.request.UpdatedTransactionRequest;
 import com.mt.response.PageElementsResponse;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class TransactionController {
 
     @PatchMapping("/{id}")
     public TransactionDto updateTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id,
-                                                @RequestBody UpdatedTransactionRequest transaction) {
+                                                @RequestBody ChangeTransactionRequest transaction) {
         return transactionService.updateTransactionById(auth, id, transaction);
     }
 

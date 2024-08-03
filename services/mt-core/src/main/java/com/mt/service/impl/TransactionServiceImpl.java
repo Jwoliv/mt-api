@@ -3,19 +3,15 @@ package com.mt.service.impl;
 import com.mt.dto.TransactionDashboardDto;
 import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
-import com.mt.enums.TypeOperation;
-import com.mt.enums.TypeTransaction;
 import com.mt.mapper.TransactionMapper;
 import com.mt.model.transaction.Transaction;
 import com.mt.repository.TransactionRepository;
 import com.mt.request.ChangeTransactionRequest;
-import com.mt.request.UpdatedTransactionRequest;
 import com.mt.response.PageElementsResponse;
 import com.mt.security.UserAuthenticationProvider;
-import com.mt.service.CreateTransactionService;
+import com.mt.service.TransactionDbService;
 import com.mt.service.TransactionService;
 import lombok.Setter;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,7 +31,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Setter(onMethod = @__({@Autowired}))
     private TransactionMapper transactionMapper;
     @Setter(onMethod = @__({@Autowired}))
-    private CreateTransactionService createTransactionService;
+    private TransactionDbService transactionDbService;
 
 
     @Override
@@ -47,7 +43,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public CreatedTransaction createNewTransaction(String auth, ChangeTransactionRequest request) {
-        return createTransactionService.createNewTransaction(auth, request, TypeOperation.CREATE);
+        return transactionDbService.createNewTransaction(auth, request);
     }
 
     @Override
@@ -72,24 +68,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public TransactionDto updateTransactionById(String auth, Long id, UpdatedTransactionRequest transactionRequest) {
-        if (updateTransaction(auth, id, transactionRequest)) {
-            var transaction = transactionRepository.findById(id).orElse(null);
-            return transactionMapper.toTransactionDto(transaction);
-        }
-        return null;
-    }
-
-    @Transactional
-    public Boolean updateTransaction(String auth, Long id, UpdatedTransactionRequest request) {
-        String email = provider.extractEmail(auth);
-        Transaction transactionDB = transactionRepository.getUserTransactionById(email, id);
-        if (ObjectUtils.notEqual(request.getType(), TypeTransaction.TRANSFER) && transactionDB != null) {
-            request.setId(id);
-            transactionRepository.updateTransaction(request);
-            return true;
-        }
-        return false;
+    public TransactionDto updateTransactionById(String auth, Long id, ChangeTransactionRequest request) {
+        return transactionDbService.updateTransaction(auth, request);
     }
 
     private PageElementsResponse<TransactionDashboardDto> buildPageTransactions(Integer pageNumber, Page<Transaction> transactionsPageable) {

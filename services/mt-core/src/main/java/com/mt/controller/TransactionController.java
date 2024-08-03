@@ -4,7 +4,6 @@ import com.mt.dto.TransactionDashboardDto;
 import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.request.ChangeTransactionRequest;
-import com.mt.request.UpdatedTransactionRequest;
 import com.mt.response.PageElementsResponse;
 import com.mt.service.TransactionService;
 import lombok.Setter;
@@ -43,7 +42,7 @@ public class TransactionController {
 
     @PatchMapping("/{id}")
     public TransactionDto updateTransactionById(@RequestHeader("Authorization") String auth, @PathVariable("id") Long id,
-                                                @RequestBody UpdatedTransactionRequest transaction) {
+                                                @RequestBody ChangeTransactionRequest transaction) {
         return transactionService.updateTransactionById(auth, id, transaction);
     }
 

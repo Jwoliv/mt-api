@@ -3,7 +3,7 @@ package com.mt.repository;
 import com.mt.model.DailyAmountReport;
 import com.mt.model.transaction.Transaction;
 import com.mt.repository.view.DailyReportView;
-import com.mt.request.UpdatedTransactionRequest;
+import com.mt.request.ChangeTransactionRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -116,20 +116,4 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     @Query("SELECT T FROM Transaction T WHERE T.user.email = :email AND T.category.id = :categoryId")
     Page<Transaction> getTransactionsPageableByCategoryId(String email, PageRequest pageable, Long categoryId);
-
-    @Modifying
-    @Query("""
-        UPDATE Transaction t
-        SET t.date = :#{#request.date},
-            t.amount = :#{#request.amount},
-            t.type = :#{#request.type},
-            t.category.id = :#{#request.categoryId},
-            t.account.id = :#{#request.accountId},
-            t.receiverAccount.id = :#{#request.receiverAccountId},
-            t.sender = :#{#request.sender},
-            t.note = :#{#request.note},
-            t.updatedAt = :#{#request.updatedAt}
-        WHERE t.id = :#{#request.id}
-    """)
-    void updateTransaction(@Param("request") UpdatedTransactionRequest request);
 }
