@@ -5,7 +5,7 @@ import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.feign.TransactionCore;
 import com.mt.node.TransactionService;
-import com.mt.request.NewTransactionRequest;
+import com.mt.request.ChangeTransactionRequest;
 import com.mt.request.UpdatedTransactionRequest;
 import com.mt.response.PageElementsResponse;
 import lombok.Setter;
@@ -24,7 +24,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public CreatedTransaction createNewTransaction(String auth, NewTransactionRequest request) {
+    public CreatedTransaction createNewTransaction(String auth, ChangeTransactionRequest request) {
         return transactionCore.createNewTransaction(auth, request);
     }
 

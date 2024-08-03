@@ -4,7 +4,7 @@ import com.mt.dto.TransactionDashboardDto;
 import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
 import com.mt.node.TransactionService;
-import com.mt.request.NewTransactionRequest;
+import com.mt.request.ChangeTransactionRequest;
 import com.mt.request.UpdatedTransactionRequest;
 import com.mt.response.PageElementsResponse;
 import lombok.Setter;
@@ -21,7 +21,7 @@ public class TransactionController {
 
     @PostMapping("/new")
     public CreatedTransaction createNewTransaction(@RequestHeader("Authorization") String auth,
-                                                   @RequestBody NewTransactionRequest request
+                                                   @RequestBody ChangeTransactionRequest request
     ) {
         return transactionService.createNewTransaction(auth, request);
     }

@@ -1,7 +1,7 @@
 package com.mt.model.transaction;
 
 import com.mt.model.User;
-import com.mt.request.NewTransactionRequest;
+import com.mt.request.ChangeTransactionRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,7 +36,7 @@ public class Account {
     @OneToMany(mappedBy = "receiverAccount")
     private List<Transaction> transferTransactions;
 
-    public void changeCurrentBalance(NewTransactionRequest request) {
+    public void changeCurrentBalance(ChangeTransactionRequest request) {
         switch (request.getType()) {
             case EARNING -> {
                 this.currentBalance = currentBalance.add(request.getAmount());
@@ -49,7 +49,7 @@ public class Account {
         }
     }
 
-    public void changeTransferTransactions(NewTransactionRequest request, Account receiverAccount) {
+    public void changeTransferTransactions(ChangeTransactionRequest request, Account receiverAccount) {
         if (Objects.equals(request.getType(), TRANSFER)) {
             this.currentBalance = currentBalance.subtract(request.getAmount());
             receiverAccount.setCurrentBalance(receiverAccount.getCurrentBalance().add(request.getAmount()));

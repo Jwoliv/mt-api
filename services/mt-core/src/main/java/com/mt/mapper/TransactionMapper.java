@@ -7,7 +7,7 @@ import com.mt.model.User;
 import com.mt.model.transaction.Account;
 import com.mt.model.transaction.Category;
 import com.mt.model.transaction.Transaction;
-import com.mt.request.NewTransactionRequest;
+import com.mt.request.ChangeTransactionRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -34,7 +34,7 @@ public interface TransactionMapper {
     @Mapping(target = "receiverAccount", source = "receiverAccount")
     @Mapping(target = "date", expression = "java(request.getDate())")
     @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")
-    Transaction mapToTransferTransactionToCreate(NewTransactionRequest request, Account account, Account receiverAccount, User user, Category category);
+    Transaction mapToTransferTransactionToCreate(ChangeTransactionRequest request, Account account, Account receiverAccount, User user, Category category);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
@@ -43,7 +43,7 @@ public interface TransactionMapper {
     @Mapping(target = "user", source = "user")
     @Mapping(target = "date", expression = "java(request.getDate())")
     @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")
-    Transaction mapToUsualTransactionToCreate(NewTransactionRequest request, User user, Category category, Account account);
+    Transaction mapToUsualTransactionToCreate(ChangeTransactionRequest request, User user, Category category, Account account);
 
     @Mapping(target = "userId", source = "user.id")
     @Mapping(target = "categoryId", source = "category.id")

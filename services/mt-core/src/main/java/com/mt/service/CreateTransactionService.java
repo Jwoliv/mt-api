@@ -1,8 +1,8 @@
 package com.mt.service;
 
 import com.mt.dto.model_dto.CreatedTransaction;
-import com.mt.request.NewTransactionRequest;
+import com.mt.request.ChangeTransactionRequest;
 
 public interface CreateTransactionService {
-    CreatedTransaction createNewTransaction(String auth, NewTransactionRequest request);
+    CreatedTransaction createNewTransaction(String auth, ChangeTransactionRequest request);
 }

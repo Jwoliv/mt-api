@@ -4,7 +4,7 @@ import com.mt.config.FeignConfig;
 import com.mt.dto.TransactionDashboardDto;
 import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
-import com.mt.request.NewTransactionRequest;
+import com.mt.request.ChangeTransactionRequest;
 import com.mt.request.UpdatedTransactionRequest;
 import com.mt.response.PageElementsResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -20,7 +20,7 @@ import java.util.List;
 public interface TransactionCore {
     @PostMapping("/new")
     CreatedTransaction createNewTransaction(@RequestHeader("Authorization") String auth,
-                                            @RequestBody NewTransactionRequest request
+                                            @RequestBody ChangeTransactionRequest request
     );
 
     @GetMapping

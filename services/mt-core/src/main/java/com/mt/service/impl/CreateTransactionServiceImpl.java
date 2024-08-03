@@ -9,7 +9,7 @@ import com.mt.repository.AccountRepository;
 import com.mt.repository.CategoryRepository;
 import com.mt.repository.TransactionRepository;
 import com.mt.repository.UserRepository;
-import com.mt.request.NewTransactionRequest;
+import com.mt.request.ChangeTransactionRequest;
 import com.mt.security.UserAuthenticationProvider;
 import com.mt.service.CreateTransactionService;
 import jakarta.transaction.Transactional;
@@ -38,22 +38,22 @@ public class CreateTransactionServiceImpl implements CreateTransactionService {
 
     @Override
     @Transactional
-    public CreatedTransaction createNewTransaction(String auth, NewTransactionRequest request) {
+    public CreatedTransaction createNewTransaction(String auth, ChangeTransactionRequest request) {
         var email = provider.extractEmail(auth);
         var transaction = createTransaction(request, email);
         var savedTransaction = transactionRepository.save(transaction);
         return transactionMapper.mapToCreateTransaction(savedTransaction);
     }
 
-    private Transaction createTransaction(NewTransactionRequest request, String email) {
+    private Transaction createTransaction(ChangeTransactionRequest request, String email) {
         return isUsualTransaction(request)
                 ? generateUsualTransaction(request, email)
                 : generateTransferTransaction(request, email);
     }
 
-    private Transaction generateTransferTransaction(NewTransactionRequest request, String email) {
-        var account = accountRepository.findById(request.getSenderAccount()).orElse(null);
-        var receiver = accountRepository.findById(request.getReceiverAccount()).orElse(null);
+    private Transaction generateTransferTransaction(ChangeTransactionRequest request, String email) {
+        var account = accountRepository.findById(request.getSenderAccountId()).orElse(null);
+        var receiver = accountRepository.findById(request.getReceiverAccountId()).orElse(null);
         var user = userRepository.findByEmail(email).orElse(null);
         var transferCategory = categoryRepository.findById(3L).orElse(null);
 
@@ -62,7 +62,7 @@ public class CreateTransactionServiceImpl implements CreateTransactionService {
         return transaction;
     }
 
-    private Transaction generateUsualTransaction(NewTransactionRequest request, String email) {
+    private Transaction generateUsualTransaction(ChangeTransactionRequest request, String email) {
         var user = userRepository.findByEmail(email).orElse(null);
         var category = categoryRepository.findById(request.getCategoryId()).orElse(null);
         var account = accountRepository.findById(request.getAccountId()).orElse(null);
@@ -72,16 +72,16 @@ public class CreateTransactionServiceImpl implements CreateTransactionService {
         return transaction;
     }
 
-    private Boolean isUsualTransaction(NewTransactionRequest request) {
+    private Boolean isUsualTransaction(ChangeTransactionRequest request) {
         return USUAL_TRANSACTION_TYPES.contains(request.getType());
     }
 
-    private void updateAccountsByTransferTransaction(NewTransactionRequest request, Account account, Account receiver) {
+    private void updateAccountsByTransferTransaction(ChangeTransactionRequest request, Account account, Account receiver) {
         account.changeTransferTransactions(request, receiver);
         accountRepository.saveAll(List.of(account, receiver));
     }
 
-    private void updateAccountByUsualTransactions(NewTransactionRequest request, Account account) {
+    private void updateAccountByUsualTransactions(ChangeTransactionRequest request, Account account) {
         account.changeCurrentBalance(request);
         accountRepository.save(account);
     }

@@ -10,7 +10,8 @@ import java.time.LocalDate;
 
 @Data
 @ToString
-public class NewTransactionRequest {
+public class ChangeTransactionRequest {
+    private Long id;
     @NotNull
     private BigDecimal amount;
     @NotNull
@@ -22,7 +23,7 @@ public class NewTransactionRequest {
     @NotNull
     private TypeTransaction type;
     private String sender;
-    private Long senderAccount;
-    private Long receiverAccount;
+    private Long senderAccountId;
+    private Long receiverAccountId;
     private String note;
 }
