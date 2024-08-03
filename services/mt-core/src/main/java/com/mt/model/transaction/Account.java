@@ -2,7 +2,6 @@ package com.mt.model.transaction;
 
 import com.mt.enums.TypeTransaction;
 import com.mt.model.User;
-import com.mt.request.ChangeTransactionRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
