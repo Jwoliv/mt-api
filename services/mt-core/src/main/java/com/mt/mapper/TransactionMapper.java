@@ -36,6 +36,15 @@ public interface TransactionMapper {
     @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")
     Transaction mapToTransferTransactionToCreate(ChangeTransactionRequest request, Account account, Account receiverAccount, User user, Category category);
 
+    @Mapping(target = "id", source = "request.id")
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "type", source = "request.type")
+    @Mapping(target = "user", source = "user")
+    @Mapping(target = "receiverAccount", source = "receiverAccount")
+    @Mapping(target = "date", expression = "java(request.getDate())")
+    @Mapping(target = "updatedAt", expression = "java(LocalDateTime.now())")
+    Transaction mapToTransferTransactionToUpdate(ChangeTransactionRequest request, Account account, Account receiverAccount, User user, Category category);
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "receiverAccount", ignore = true)
@@ -44,6 +53,14 @@ public interface TransactionMapper {
     @Mapping(target = "date", expression = "java(request.getDate())")
     @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")
     Transaction mapToUsualTransactionToCreate(ChangeTransactionRequest request, User user, Category category, Account account);
+
+    @Mapping(target = "id", source = "request.id")
+    @Mapping(target = "receiverAccount", ignore = true)
+    @Mapping(target = "type", source = "request.type")
+    @Mapping(target = "user", source = "user")
+    @Mapping(target = "date", expression = "java(request.getDate())")
+    @Mapping(target = "updatedAt", expression = "java(LocalDateTime.now())")
+    Transaction mapToUsualTransactionToUpdate(ChangeTransactionRequest request, User user, Category category, Account account);
 
     @Mapping(target = "userId", source = "user.id")
     @Mapping(target = "categoryId", source = "category.id")

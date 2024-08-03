@@ -1,5 +1,6 @@
 package com.mt.model.transaction;
 
+import com.mt.enums.TypeTransaction;
 import com.mt.model.User;
 import com.mt.request.ChangeTransactionRequest;
 import jakarta.persistence.*;
@@ -8,9 +9,6 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
-
-import static com.mt.enums.TypeTransaction.TRANSFER;
 
 @Setter
 @Getter
@@ -36,23 +34,21 @@ public class Account {
     @OneToMany(mappedBy = "receiverAccount")
     private List<Transaction> transferTransactions;
 
-    public void changeCurrentBalance(ChangeTransactionRequest request) {
-        switch (request.getType()) {
+    public void changeBalanceByUsual(BigDecimal amount, TypeTransaction type) {
+        switch (type) {
             case EARNING -> {
-                this.currentBalance = currentBalance.add(request.getAmount());
-                this.earnMoney = earnMoney.add(request.getAmount());
+                this.currentBalance = currentBalance.add(amount);
+                this.earnMoney = earnMoney.add(amount);
             }
             case SPENDING -> {
-                this.currentBalance = currentBalance.subtract(request.getAmount());
-                this.spendMoney = this.spendMoney.add(request.getAmount());
+                this.currentBalance = currentBalance.subtract(amount);
+                this.spendMoney = this.spendMoney.add(amount);
             }
         }
     }
 
-    public void changeTransferTransactions(ChangeTransactionRequest request, Account receiverAccount) {
-        if (Objects.equals(request.getType(), TRANSFER)) {
-            this.currentBalance = currentBalance.subtract(request.getAmount());
-            receiverAccount.setCurrentBalance(receiverAccount.getCurrentBalance().add(request.getAmount()));
-        }
+    public void changeBalanceByTransfer(BigDecimal amount, Account receiverAccount) {
+        this.currentBalance = currentBalance.subtract(amount);
+        receiverAccount.setCurrentBalance(receiverAccount.getCurrentBalance().add(amount));
     }
 }

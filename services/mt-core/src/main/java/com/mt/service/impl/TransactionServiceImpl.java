@@ -3,6 +3,7 @@ package com.mt.service.impl;
 import com.mt.dto.TransactionDashboardDto;
 import com.mt.dto.TransactionDto;
 import com.mt.dto.model_dto.CreatedTransaction;
+import com.mt.enums.TypeOperation;
 import com.mt.enums.TypeTransaction;
 import com.mt.mapper.TransactionMapper;
 import com.mt.model.transaction.Transaction;
@@ -46,7 +47,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public CreatedTransaction createNewTransaction(String auth, ChangeTransactionRequest request) {
-        return createTransactionService.createNewTransaction(auth, request);
+        return createTransactionService.createNewTransaction(auth, request, TypeOperation.CREATE);
     }
 
     @Override
