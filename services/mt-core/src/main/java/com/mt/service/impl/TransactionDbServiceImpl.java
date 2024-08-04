@@ -44,7 +44,7 @@ public class TransactionDbServiceImpl implements TransactionDbService {
     public TransactionDto updateTransaction(String auth, ChangeTransactionRequest request) {
         return changeTransaction(auth, request, (req, email) ->
                 generatorTransaction.getTransaction(req, email, TypeOperation.UPDATE),
-                transactionMapper::toTransactionDto
+                transactionMapper::mapToTransactionDto
         );
 
     }

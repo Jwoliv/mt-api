@@ -39,13 +39,13 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryFormDto> getCategories(TypeCategory type) {
         List<Category> categories = categoryRepository.findAllByType(type);
-        return categoryMapper.toFormDto(categories);
+        return categoryMapper.mapToCategoryFormDto(categories);
     }
 
     @Override
     public List<CategoryDto> getCategories(String authorization) {
         var categories = categoryRepository.findAll();
-        return categoryMapper.toDto(categories);
+        return categoryMapper.mapToCategoryDto(categories);
     }
 
     @Override

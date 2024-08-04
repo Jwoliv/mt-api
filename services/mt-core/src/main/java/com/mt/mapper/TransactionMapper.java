@@ -71,5 +71,5 @@ public interface TransactionMapper {
     @Mapping(target = "categoryName", source = "category.name")
     @Mapping(target = "accountName", source = "account.name")
     @Mapping(target = "receiverAccountName", source = "receiverAccount.name")
-    TransactionDto toTransactionDto(Transaction transaction);
+    TransactionDto mapToTransactionDto(Transaction transaction);
 }

@@ -51,7 +51,7 @@ public class AccountServiceImpl implements AccountService {
                 .build();
 
         var savedAccount = accountRepository.save(account);
-        return accountMapper.toDto(savedAccount);
+        return accountMapper.mapToAccountDto(savedAccount);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class AccountServiceImpl implements AccountService {
         var email = provider.extractEmail(authorization);
         var accounts = accountRepository.findAccountsByEmail(email, PageRequest.of(pageNumber, pageSize));
         return PageElementsResponse.<AccountDto>builder()
-                .elements(accountMapper.toDto(accounts.getContent()))
+                .elements(accountMapper.mapToAccountDto(accounts.getContent()))
                 .isPrevPage(pageNumber > 0)
                 .isNextPage(accounts.getTotalPages() > (pageNumber + 1))
                 .build();
@@ -68,20 +68,20 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public List<AccountDto> getAccountsDashboard(String authorization) {
         var email = provider.extractEmail(authorization);
-        return accountMapper.toDto(accountRepository.getAccountsDashboard(email));
+        return accountMapper.mapToAccountDto(accountRepository.getAccountsDashboard(email));
     }
 
     @Override
     public List<AccountFormDto> getAccountsByEmailForNewTransaction(String authorization) {
         var email = provider.extractEmail(authorization);
-        return accountMapper.toFormDto(accountRepository.findAccountsByEmail(email));
+        return accountMapper.mapToAccountFormDto(accountRepository.findAccountsByEmail(email));
     }
 
     @Override
     public AccountDto getUserAccountById(String auth, Long id) {
         var email = provider.extractEmail(auth);
         var account = accountRepository.getUserAccountById(email, id).orElse(null);
-        return accountMapper.toDto(account);
+        return accountMapper.mapToAccountDto(account);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class AccountServiceImpl implements AccountService {
         var email = provider.extractEmail(auth);
         accountRepository.updateAccountById(email, id, request);
         var account = accountRepository.findById(id).orElse(null);
-        return accountMapper.toDto(account);
+        return accountMapper.mapToAccountDto(account);
     }
 
 }

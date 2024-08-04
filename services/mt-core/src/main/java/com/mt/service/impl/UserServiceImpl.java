@@ -21,13 +21,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findByEmail(String email) {
         var user = userRepository.findByEmail(email).orElse(null);
-        return userMapper.mapToDto(user);
+        return userMapper.mapToUserDto(user);
     }
 
     @Override
     public UserDto findByUsername(String username) {
         var user = userRepository.findByUsername(username).orElse(null);
-        return userMapper.mapToDto(user);
+        return userMapper.mapToUserDto(user);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         var username = newUser.getUsername();
         if (userRepository.notExistsByEmailOrUsername(email, username)) {
             var savedUser = userRepository.save(newUser);
-            return userMapper.mapToDto(savedUser);
+            return userMapper.mapToUserDto(savedUser);
         }
         return null;
     }

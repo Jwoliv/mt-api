@@ -8,5 +8,5 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface DailyAmountReportMapper {
-    List<DailyAmountReport> toDailyAmountReportViews(List<DailyAmountReportView> dailyAmountReports);
+    List<DailyAmountReport> mapToDailyAmountReportViews(List<DailyAmountReportView> dailyAmountReports);
 }

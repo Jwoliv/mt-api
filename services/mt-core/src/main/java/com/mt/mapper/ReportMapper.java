@@ -13,7 +13,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ReportMapper {
-    List<DailyReportDto> toDailyReportDto(List<DailyReportView> dailyReportView);
-    List<DailyAmountReportDto> toDailyAmountReportDto(List<DailyAmountReport> amountReports);
-    ProfitReportDto toProfitReportDto(BigDecimal profit, BigDecimal percentage, ProfitReportPeriod period);
+    List<DailyReportDto> mapToDailyReportDto(List<DailyReportView> dailyReportView);
+    List<DailyAmountReportDto> mapToDailyAmountReportDto(List<DailyAmountReport> amountReports);
+    ProfitReportDto mapToProfitReportDto(BigDecimal profit, BigDecimal percentage, ProfitReportPeriod period);
 }

@@ -49,7 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionDto getUserTransactionById(String auth, Long id) {
         var transaction = transactionRepository.getUserTransactionById(provider.extractEmail(auth), id);
-        return transactionMapper.toTransactionDto(transaction);
+        return transactionMapper.mapToTransactionDto(transaction);
     }
 
     @Override

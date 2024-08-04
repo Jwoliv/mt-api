@@ -32,7 +32,7 @@ public class AuthServiceImpl implements AuthService {
     public UserDto login(LoginDto login) {
         var user = userRepository.findByUsername(login.getUsername()).orElse(null);
         if (authUtils.isValidLoginPassword(login.getPassword(), user.getPassword())) {
-            var checkedUser = userMapper.mapToDto(user);
+            var checkedUser = userMapper.mapToUserDto(user);
             provider.setTokenToUser(checkedUser);
             return checkedUser;
         }

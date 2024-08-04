@@ -51,7 +51,7 @@ public class ReportServiceImpl implements ReportService {
         var currentDate = LocalDate.now();
         var email = provider.extractEmail(authorization);
         var reports = transactionRepository.getDailyUserReport(email, currentDate.minusDays(DEFAULT_STOCK_DAYS), currentDate);
-        return reportMapper.toDailyReportDto(reports);
+        return reportMapper.mapToDailyReportDto(reports);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ReportServiceImpl implements ReportService {
         var startDate = currentDate.minusDays(DEFAULT_AMOUNT_DAILY_REPORTS);
         var email = provider.extractEmail(authorization);
         var reports = transactionRepository.getDailyAmountReports(email, startDate, currentDate, PageRequest.of(0, 60)).reversed();
-        var reportsResponse = reportMapper.toDailyAmountReportDto(reports);
+        var reportsResponse = reportMapper.mapToDailyAmountReportDto(reports);
         IntStream.range(0, reportsResponse.size()).forEach(i -> reportsResponse.get(i).setIndex(i + 1L));
         return reportsResponse;
     }
@@ -78,7 +78,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
     private ProfitReportDto generateProfitReport(BigDecimal profit, BigDecimal amount, ProfitReportPeriod period) {
-        return reportMapper.toProfitReportDto(profit, getProfitPercentage(profit, amount), period);
+        return reportMapper.mapToProfitReportDto(profit, getProfitPercentage(profit, amount), period);
     }
 
     private BigDecimal getProfitPercentage(BigDecimal profit, BigDecimal generalAmount) {
@@ -96,7 +96,7 @@ public class ReportServiceImpl implements ReportService {
     private List<DailyAmountReport> getDailyAmountReports() {
         var dbData = dailyAmountReportRepository.findSumOfAccountBalancesGroupedByUserId(LocalDateTime.now().minusDays(1));
         var dailyAmountReports = convertToView(dbData);
-        return dailyAmountReportMapper.toDailyAmountReportViews(dailyAmountReports);
+        return dailyAmountReportMapper.mapToDailyAmountReportViews(dailyAmountReports);
     }
 
     private List<DailyAmountReportView> convertToView(List<Object[]> data) {
