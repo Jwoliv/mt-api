@@ -67,19 +67,19 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
                   END)
         FROM Transaction T
         WHERE T.user.email = :email
-          AND T.type <> 'TRANSFER'
-          AND EXTRACT(MONTH FROM T.date) = EXTRACT(MONTH FROM CURRENT_DATE)
-          AND EXTRACT(YEAR FROM T.date) = EXTRACT(YEAR FROM CURRENT_DATE)
+        AND T.type <> 'TRANSFER'
+        AND EXTRACT(MONTH FROM T.date) = EXTRACT(MONTH FROM CURRENT_DATE)
+        AND EXTRACT(YEAR FROM T.date) = EXTRACT(YEAR FROM CURRENT_DATE)
     """)
     BigDecimal getMonthProfit(String email);
 
     @Query("""
         SELECT SUM(CASE WHEN T.type = 'EARNING' THEN T.amount WHEN T.type = 'SPENDING' THEN -T.amount ELSE 0 END)
         FROM Transaction T
-        WHERE T.user.email = :email
-          AND T.type <> 'TRANSFER'
-          AND EXTRACT(WEEK FROM T.date) = EXTRACT(WEEK FROM CURRENT_DATE)
-          AND EXTRACT(YEAR FROM T.date) = EXTRACT(YEAR FROM CURRENT_DATE)
+        WHERE T.user.email = :email 
+        AND T.type <> 'TRANSFER'
+        AND EXTRACT(WEEK FROM T.date) = EXTRACT(WEEK FROM CURRENT_DATE)
+        AND EXTRACT(YEAR FROM T.date) = EXTRACT(YEAR FROM CURRENT_DATE)
     """)
     BigDecimal getWeekProfit(String email);
 
@@ -87,8 +87,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         SELECT SUM(CASE WHEN T.type = 'EARNING' THEN T.amount WHEN T.type = 'SPENDING' THEN -T.amount ELSE 0 END)
         FROM Transaction T
         WHERE T.user.email = :email
-          AND T.type <> 'TRANSFER'
-          AND DATE_TRUNC('day', T.date) = DATE_TRUNC('day', CURRENT_DATE)
+        AND T.type <> 'TRANSFER'
+        AND DATE_TRUNC('day', T.date) = DATE_TRUNC('day', CURRENT_DATE)
     """)
     BigDecimal getDayProfit(String email);
 

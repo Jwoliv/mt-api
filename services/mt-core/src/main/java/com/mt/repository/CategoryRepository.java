@@ -14,9 +14,6 @@ import java.util.Optional;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     Optional<Category> findByName(String name);
 
-    @Query("""
-        SELECT C FROM Category C
-        WHERE C.type = :type
-    """)
+    @Query("SELECT C FROM Category C WHERE C.type = :type")
     List<Category> findAllByType(@Param("type") TypeCategory type);
 }

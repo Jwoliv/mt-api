@@ -84,7 +84,7 @@ public class GeneratorTransactionImpl implements GeneratorTransaction {
     }
 
     private void updateAccountsByTransferTransactionUpdate(Transaction transaction, Account senderAccount, Account receiverAccount, Transaction transactionDb) {
-        var differAmount = transactionDb.getAmount().subtract(transaction.getAmount());
+        var differAmount = transaction.getAmount().subtract(transactionDb.getAmount());
         senderAccount.changeBalanceByTransfer(differAmount, receiverAccount);
         accountRepository.saveAll(List.of(senderAccount, receiverAccount));
     }
