@@ -35,6 +35,19 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
                                              @Param("endOfDay") LocalDate endOfDay);
 
     @Query("""
+        SELECT NEW com.mt.repository.view.DailyReportView(
+            SUM(CASE WHEN T.type = com.mt.enums.TypeTransaction.EARNING THEN T.amount END),
+            SUM(CASE WHEN T.type = com.mt.enums.TypeTransaction.SPENDING THEN T.amount END),
+            T.date
+        )
+        FROM Transaction T
+        WHERE T.user.email = :email
+        GROUP BY T.date
+        ORDER BY T.date DESC
+    """)
+    List<DailyReportView> getAllDailyUserReport(@Param("email") String email);
+
+    @Query("""
         SELECT T FROM Transaction T
         WHERE T.user.email = :email
         ORDER BY T.createdAt DESC
@@ -97,6 +110,12 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         WHERE T.user.email = :email AND T.id = :id
     """)
     Transaction getUserTransactionById(String email, Long id);
+
+    @Query("""
+        SELECT T FROM Transaction T
+        WHERE T.user.email = :email AND T.id = :id
+    """)
+    List<Transaction> getUserTransactionsByEmail(String email);
 
     @Modifying
     @Query("DELETE FROM Transaction T WHERE T.account.id = :id")
