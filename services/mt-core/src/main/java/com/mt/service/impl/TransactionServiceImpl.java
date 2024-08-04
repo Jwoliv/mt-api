@@ -11,6 +11,7 @@ import com.mt.response.PageElementsResponse;
 import com.mt.security.UserAuthenticationProvider;
 import com.mt.service.TransactionDbService;
 import com.mt.service.TransactionService;
+import com.mt.utils.PageElementsResponseBuilder;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,8 @@ public class TransactionServiceImpl implements TransactionService {
     private TransactionMapper transactionMapper;
     @Setter(onMethod = @__({@Autowired}))
     private TransactionDbService transactionDbService;
+    @Setter(onMethod = @__({@Autowired}))
+    private PageElementsResponseBuilder pageElementsResponseBuilder;
 
 
     @Override
@@ -63,7 +66,7 @@ public class TransactionServiceImpl implements TransactionService {
     public PageElementsResponse<TransactionDashboardDto> getTransactionByAccountId(String auth, Long id, Integer pageNumber, Integer pageSize) {
         var email = provider.extractEmail(auth);
         var transactionsPageable = transactionRepository.getTransactionByAccountId(email, id, PageRequest.of(pageNumber, pageSize));
-        return buildPageTransactions(pageNumber, transactionsPageable);
+        return pageElementsResponseBuilder.buildPageTransactions(pageNumber, transactionsPageable);
     }
 
     @Override
@@ -73,18 +76,10 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionDbService.updateTransaction(auth, request);
     }
 
-    private PageElementsResponse<TransactionDashboardDto> buildPageTransactions(Integer pageNumber, Page<Transaction> transactionsPageable) {
-        return PageElementsResponse.<TransactionDashboardDto>builder()
-                .elements(transactionMapper.mapToDashboardDto(transactionsPageable.getContent()))
-                .isPrevPage(pageNumber > 0)
-                .isNextPage(transactionsPageable.getTotalPages() > (pageNumber + 1))
-                .build();
-    }
-
     @Override
     public PageElementsResponse<TransactionDashboardDto> getTransactionsPageable(String auth, Integer pageNumber, Integer pageSize) {
         var transactionsPageable = getTransactionPageable(auth, PageRequest.of(pageNumber, pageSize));
-        return buildPageTransactions(pageNumber, transactionsPageable);
+        return pageElementsResponseBuilder.buildPageTransactions(pageNumber, transactionsPageable);
     }
 
     private Page<Transaction> getTransactionPageable(String auth, Pageable pageable) {

@@ -2,6 +2,7 @@ package com.mt.service.impl;
 
 import com.mt.enums.TypeOperation;
 import com.mt.enums.TypeTransaction;
+import com.mt.exception.NotFoundException;
 import com.mt.mapper.TransactionMapper;
 import com.mt.model.User;
 import com.mt.model.transaction.Account;
@@ -114,17 +115,16 @@ public class GeneratorTransactionImpl implements GeneratorTransaction {
     }
 
     private TransactionChangeData fetchTransactionData(ChangeTransactionRequest request, String email) {
-        var user = userRepository.findByEmail(email).orElse(null);
+        var user = userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException(User.class, email));
         if (Objects.equals(request.getType(), TypeTransaction.TRANSFER)) {
-            var senderAccount = accountRepository.findById(request.getSenderAccountId()).orElse(null);
-            var receiverAccount = accountRepository.findById(request.getReceiverAccountId()).orElse(null);
-            var category = categoryRepository.findById(3L).orElse(null); // 3 - id of transfer category
+            var senderAccount = accountRepository.findById(request.getSenderAccountId()).orElseThrow(() -> new NotFoundException(Account.class, request.getSenderAccountId()));
+            var receiverAccount = accountRepository.findById(request.getReceiverAccountId()).orElseThrow(() -> new NotFoundException(Account.class, request.getReceiverAccountId()));
+            var category = categoryRepository.findById(3L).orElseThrow(() -> new NotFoundException(Category.class, 3L)); // 3 - id of transfer category
             return new TransactionChangeData(senderAccount, receiverAccount, user, category);
         }
-        var account = accountRepository.findById(request.getAccountId()).orElse(null);
-        var category = categoryRepository.findById(request.getCategoryId()).orElse(null);
+        var account = accountRepository.findById(request.getAccountId()).orElseThrow(() -> new NotFoundException(Account.class, request.getAccountId()));
+        var category = categoryRepository.findById(request.getCategoryId()).orElseThrow(() -> new NotFoundException(Category.class, request.getCategoryId()));
         return new TransactionChangeData(user, category, account);
-
     }
 
     @Data

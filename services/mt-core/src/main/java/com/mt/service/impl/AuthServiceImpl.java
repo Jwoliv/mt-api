@@ -3,6 +3,8 @@ package com.mt.service.impl;
 import com.mt.dto.model_dto.UserDto;
 import com.mt.dto.security.LoginDto;
 import com.mt.dto.security.SignUpDto;
+import com.mt.exception.NotFoundException;
+import com.mt.model.User;
 import com.mt.security.UserAuthenticationProvider;
 import lombok.Setter;
 import com.mt.mapper.UserMapper;
@@ -30,7 +32,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserDto login(LoginDto login) {
-        var user = userRepository.findByUsername(login.getUsername()).orElse(null);
+        var username = login.getUsername();
+        var user = userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException(User.class, username));
         if (authUtils.isValidLoginPassword(login.getPassword(), user.getPassword())) {
             var checkedUser = userMapper.mapToUserDto(user);
             provider.setTokenToUser(checkedUser);

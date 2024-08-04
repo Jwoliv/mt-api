@@ -2,7 +2,9 @@ package com.mt.service.impl;
 
 import com.mt.dto.form_dto.AccountFormDto;
 import com.mt.dto.model_dto.AccountDto;
+import com.mt.exception.NotFoundException;
 import com.mt.mapper.AccountMapper;
+import com.mt.model.User;
 import com.mt.model.transaction.Account;
 import com.mt.repository.AccountRepository;
 import com.mt.repository.TransactionRepository;
@@ -12,6 +14,7 @@ import com.mt.request.UpdateAccountRequest;
 import com.mt.response.PageElementsResponse;
 import com.mt.security.UserAuthenticationProvider;
 import com.mt.service.AccountService;
+import com.mt.utils.PageElementsResponseBuilder;
 import jakarta.transaction.Transactional;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,8 @@ public class AccountServiceImpl implements AccountService {
     private UserRepository userRepository;
     @Setter(onMethod = @__({@Autowired}))
     private TransactionRepository transactionRepository;
+    @Setter(onMethod = @__({@Autowired}))
+    private PageElementsResponseBuilder pageElementsResponseBuilder;
 
 
     @Override
@@ -47,7 +52,7 @@ public class AccountServiceImpl implements AccountService {
                 .earnMoney(new BigDecimal("0.00"))
                 .createdAt(LocalDateTime.now().toLocalDate().atStartOfDay())
                 .updatedAt(LocalDateTime.now().toLocalDate().atStartOfDay())
-                .user(userRepository.findByEmail(email).orElse(null))
+                .user(userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException(User.class, email)))
                 .build();
 
         var savedAccount = accountRepository.save(account);
@@ -58,11 +63,7 @@ public class AccountServiceImpl implements AccountService {
     public PageElementsResponse<AccountDto> getAllAccountsByEmailPageable(String authorization, Integer pageNumber, Integer pageSize) {
         var email = provider.extractEmail(authorization);
         var accounts = accountRepository.findAccountsByEmail(email, PageRequest.of(pageNumber, pageSize));
-        return PageElementsResponse.<AccountDto>builder()
-                .elements(accountMapper.mapToAccountDto(accounts.getContent()))
-                .isPrevPage(pageNumber > 0)
-                .isNextPage(accounts.getTotalPages() > (pageNumber + 1))
-                .build();
+        return pageElementsResponseBuilder.buildPageAccounts(pageNumber, accounts);
     }
 
     @Override
@@ -80,7 +81,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public AccountDto getUserAccountById(String auth, Long id) {
         var email = provider.extractEmail(auth);
-        var account = accountRepository.getUserAccountById(email, id).orElse(null);
+        var account = accountRepository.getUserAccountById(email, id).orElseThrow(() -> new NotFoundException(Account.class, email.concat(" ").concat(id.toString())));
         return accountMapper.mapToAccountDto(account);
     }
 
@@ -97,7 +98,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto updateAccountById(String auth, Long id, UpdateAccountRequest request) {
         var email = provider.extractEmail(auth);
         accountRepository.updateAccountById(email, id, request);
-        var account = accountRepository.findById(id).orElse(null);
+        var account = accountRepository.findById(id).orElseThrow(() -> new NotFoundException(Account.class, id));
         return accountMapper.mapToAccountDto(account);
     }
 
