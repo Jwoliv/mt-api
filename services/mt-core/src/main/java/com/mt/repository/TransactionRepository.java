@@ -113,7 +113,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     @Query("""
         SELECT T FROM Transaction T
-        WHERE T.user.email = :email AND T.id = :id
+        WHERE T.user.email = :email
     """)
     List<Transaction> getUserTransactionsByEmail(String email);
 
