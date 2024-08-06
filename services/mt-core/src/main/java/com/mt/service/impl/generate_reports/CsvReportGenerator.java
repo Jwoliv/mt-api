@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @Service("csvReportGenerator")
 public class CsvReportGenerator implements ReportGenerator {
