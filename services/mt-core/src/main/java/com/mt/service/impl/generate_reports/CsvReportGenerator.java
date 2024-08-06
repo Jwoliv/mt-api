@@ -3,6 +3,7 @@ package com.mt.service.impl.generate_reports;
 import com.mt.repository.AccountRepository;
 import com.mt.repository.DailyAmountReportRepository;
 import com.mt.repository.TransactionRepository;
+import com.mt.utils.FileFormatter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,9 @@ import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import static com.mt.utils.FileFormatter.CSV;
+import static com.mt.utils.FileFormatter.CSV_CONTENT_TYPE;
 
 @Service("csvReportGenerator")
 public class CsvReportGenerator implements ReportGenerator {
@@ -41,25 +42,20 @@ public class CsvReportGenerator implements ReportGenerator {
     @Override
     public void getAllReports(String email, HttpServletResponse response) {
         try {
-            response.setContentType("text/csv");
-            DateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
-            String currentDateTime = dateFormatter.format(new Date());
-
-            String headerKey = "Content-Disposition";
-            String headerValue = "attachment; filename=report_" + currentDateTime + ".csv";
-            response.setHeader(headerKey, headerValue);
-
-            ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
-
-            writeTransactionReport(csvWriter, email);
-            writeAccountReport(csvWriter, email);
-            writeDailyAmountReport(csvWriter, email);
-            writeDailyReport(csvWriter, email);
-
+            FileFormatter.updateHttpResponse(response, CSV_CONTENT_TYPE, CSV);
+            var csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
+            writeAllReports(email, csvWriter);
             csvWriter.close();
         } catch (IOException e) {
             throw new RuntimeException("Failed to generate combined CSV report", e);
         }
+    }
+
+    private void writeAllReports(String email, CsvBeanWriter csvWriter) throws IOException {
+        writeTransactionReport(csvWriter, email);
+        writeAccountReport(csvWriter, email);
+        writeDailyAmountReport(csvWriter, email);
+        writeDailyReport(csvWriter, email);
     }
 
     private void writeTransactionReport(ICsvBeanWriter csvWriter, String email) throws IOException {

@@ -7,6 +7,7 @@ import com.mt.repository.AccountRepository;
 import com.mt.repository.DailyAmountReportRepository;
 import com.mt.repository.TransactionRepository;
 import com.mt.repository.view.DailyReportView;
+import com.mt.utils.FileFormatter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Setter;
 import org.apache.poi.ss.usermodel.Row;
@@ -18,6 +19,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
+
+import static com.mt.utils.FileFormatter.XLSX;
+import static com.mt.utils.FileFormatter.XLSX_CONTENT_TYPE;
 
 @Service("excelReportGenerator")
 public class ExcelReportGenerator implements ReportGenerator {
@@ -41,18 +45,20 @@ public class ExcelReportGenerator implements ReportGenerator {
     @Override
     public void getAllReports(String email, HttpServletResponse response) {
         try (var workbook = new XSSFWorkbook()) {
-            writeTransactionReport(workbook, email);
-            writeAccountReport(workbook, email);
-            writeDailyReport(workbook, email);
-            writeDailyAmountReport(workbook, email);
-
-            response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            response.setHeader("Content-Disposition", "attachment; filename=report.xlsx");
+            writeAll(email, workbook);
+            FileFormatter.updateHttpResponse(response, XLSX_CONTENT_TYPE, XLSX);
             workbook.write(response.getOutputStream());
             response.getOutputStream().flush();
         } catch (IOException e) {
             throw new RuntimeException("Failed to generate combined Excel report", e);
         }
+    }
+
+    private void writeAll(String email, XSSFWorkbook workbook) {
+        writeTransactionReport(workbook, email);
+        writeAccountReport(workbook, email);
+        writeDailyReport(workbook, email);
+        writeDailyAmountReport(workbook, email);
     }
 
     private void writeTransactionReport(XSSFWorkbook workbook, String email) {
