@@ -30,21 +30,11 @@ public class GeneratorReportController {
 
     @GetMapping("/xlsx")
     public void downloadAllReportsAsXlsx(@RequestHeader("Authorization") String auth, HttpServletResponse response) {
-        try {
-            excelReportGenerator.getAllReports(provider.extractEmail(auth), response);
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.setContentType("text/plain");
-            try {
-                response.getWriter().write("Failed to download the Excel report");
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-        }
+        excelReportGenerator.getAllReports(provider.extractEmail(auth), response);
     }
 
     @GetMapping("/csv")
-    public void downloadAllReportsAsCsv(HttpServletResponse response) {
-        csvReportGenerator.getAllReports("aaa1@gmail.com", response);
+    public void downloadAllReportsAsCsv(@RequestHeader("Authorization") String auth, HttpServletResponse response) {
+        csvReportGenerator.getAllReports(provider.extractEmail(auth), response);
     }
 }
