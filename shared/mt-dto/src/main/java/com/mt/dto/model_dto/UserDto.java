@@ -4,12 +4,14 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
 
 @Data
 @Builder
+@ToString
 public class UserDto {
     public Long id;
     @Email

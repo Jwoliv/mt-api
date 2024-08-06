@@ -17,4 +17,7 @@ public interface DailyAmountReportRepository extends JpaRepository<DailyAmountRe
         GROUP BY A.user.id, A.user
     """)
     List<Object[]> findSumOfAccountBalancesGroupedByUserId(LocalDateTime date);
+
+    @Query("SELECT DAR FROM DailyAmountReport DAR WHERE DAR.user.email = :email")
+    List<DailyAmountReport> findAllByEmail(String email);
 }

@@ -36,7 +36,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/sign-up", "/api/v1/reports/save/daily-amount-reports").permitAll() //todo remove save/daily-amount-reports
+                        .requestMatchers(HttpMethod.POST, "/api/v1/auth/login", "/api/v1/auth/sign-up").permitAll()
                         .requestMatchers(HttpMethod.GET, "/permit-test").permitAll()
                         .anyRequest().authenticated()
                 )

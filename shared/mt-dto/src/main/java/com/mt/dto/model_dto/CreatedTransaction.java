@@ -3,12 +3,14 @@ package com.mt.dto.model_dto;
 import com.mt.enums.TypeTransaction;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
 @Builder
+@ToString
 public class CreatedTransaction {
     private Long id;
     private BigDecimal amount;
