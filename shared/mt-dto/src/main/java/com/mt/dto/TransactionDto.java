@@ -3,6 +3,7 @@ package com.mt.dto;
 import com.mt.enums.TypeTransaction;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
+@ToString
 public class TransactionDto {
     private Long id;
     private LocalDate date;

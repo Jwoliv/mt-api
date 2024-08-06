@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "transaction")
@@ -28,15 +29,19 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TypeTransaction type;
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "category_id")
     private Category category;
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "account_id")
     private Account account;
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "receiver_account_id")
     private Account receiverAccount;
     private String sender;

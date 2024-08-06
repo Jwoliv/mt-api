@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/v1/download-reports")
 public class GeneratorReportController {
@@ -28,11 +30,21 @@ public class GeneratorReportController {
 
     @GetMapping("/xlsx")
     public void downloadAllReportsAsXlsx(@RequestHeader("Authorization") String auth, HttpServletResponse response) {
-        excelReportGenerator.getAllReports(provider.extractEmail(auth), response);
+        try {
+            excelReportGenerator.getAllReports(provider.extractEmail(auth), response);
+        } catch (Exception e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.setContentType("text/plain");
+            try {
+                response.getWriter().write("Failed to download the Excel report");
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
     }
 
     @GetMapping("/csv")
-    public void downloadAllReportsAsCsv(@RequestHeader("Authorization") String auth, HttpServletResponse response) {
-        csvReportGenerator.getAllReports(provider.extractEmail(auth), response);
+    public void downloadAllReportsAsCsv(HttpServletResponse response) {
+        csvReportGenerator.getAllReports("aaa1@gmail.com", response);
     }
 }

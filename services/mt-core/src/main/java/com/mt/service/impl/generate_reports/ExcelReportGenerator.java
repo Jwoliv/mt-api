@@ -48,9 +48,8 @@ public class ExcelReportGenerator implements ReportGenerator {
 
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setHeader("Content-Disposition", "attachment; filename=report.xlsx");
-            var ops = response.getOutputStream();
-            workbook.write(ops);
-            ops.close();
+            workbook.write(response.getOutputStream());
+            response.getOutputStream().flush();
         } catch (IOException e) {
             throw new RuntimeException("Failed to generate combined Excel report", e);
         }

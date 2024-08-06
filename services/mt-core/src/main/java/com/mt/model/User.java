@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 @Entity
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "_users")
@@ -40,10 +41,13 @@ public class User {
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private List<Role> roles;
+    @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Transaction> transactions;
+    @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Account> accounts;
+    @ToString.Exclude
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<DailyAmountReport> dailyAmountReports;
 }

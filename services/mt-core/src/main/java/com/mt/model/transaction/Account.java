@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @Entity
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account {
@@ -26,10 +27,13 @@ public class Account {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "user_id")
     private User user;
+    @ToString.Exclude
     @OneToMany(mappedBy = "account")
     private List<Transaction> transactions;
+    @ToString.Exclude
     @OneToMany(mappedBy = "receiverAccount")
     private List<Transaction> transferTransactions;
 
