@@ -3,6 +3,7 @@ package com.mt.service.impl.generate_reports;
 import com.mt.repository.AccountRepository;
 import com.mt.repository.DailyAmountReportRepository;
 import com.mt.repository.TransactionRepository;
+import com.mt.utils.FileFormatter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,10 @@ import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.function.Consumer;
+
+import static com.mt.utils.FileFormatter.CSV;
+import static com.mt.utils.FileFormatter.CSV_CONTENT_TYPE;
 
 @Service("csvReportGenerator")
 public class CsvReportGenerator implements ReportGenerator {
@@ -41,68 +43,39 @@ public class CsvReportGenerator implements ReportGenerator {
     @Override
     public void getAllReports(String email, HttpServletResponse response) {
         try {
-            response.setContentType("text/csv");
-            DateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
-            String currentDateTime = dateFormatter.format(new Date());
-
-            String headerKey = "Content-Disposition";
-            String headerValue = "attachment; filename=report_" + currentDateTime + ".csv";
-            response.setHeader(headerKey, headerValue);
-
-            ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
-
-            writeTransactionReport(csvWriter, email);
-            writeAccountReport(csvWriter, email);
-            writeDailyAmountReport(csvWriter, email);
-            writeDailyReport(csvWriter, email);
-
+            FileFormatter.updateHttpResponse(response, CSV_CONTENT_TYPE, CSV);
+            var csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
+            writeAllReports(email, csvWriter);
             csvWriter.close();
         } catch (IOException e) {
             throw new RuntimeException("Failed to generate combined CSV report", e);
         }
     }
 
-    private void writeTransactionReport(ICsvBeanWriter csvWriter, String email) throws IOException {
-        csvWriter.writeHeader(TRANSACTION_CSV_HEADER);
-        transactionRepository.getUserTransactionsByEmail(email).forEach(transaction -> {
-            try {
-                csvWriter.write(transaction, TRANSACTION_NAME_MAPPING);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to write transaction report", e);
-            }
-        });
+    private void writeAllReports(String email, CsvBeanWriter csvWriter) throws IOException {
+        writeReport(csvWriter, TRANSACTION_CSV_HEADER, TRANSACTION_NAME_MAPPING, writer ->
+                transactionRepository.getUserTransactionsByEmail(email).forEach(transaction -> writeCsv(writer, transaction, TRANSACTION_NAME_MAPPING)));
+
+        writeReport(csvWriter, ACCOUNT_CSV_HEADER, ACCOUNT_NAME_MAPPING, writer ->
+                accountRepository.findAccountsByEmail(email).forEach(account -> writeCsv(writer, account, ACCOUNT_NAME_MAPPING)));
+
+        writeReport(csvWriter, DAILY_AMOUNT_CSV_HEADER, DAILY_AMOUNT_NAME_MAPPING, writer ->
+                dailyAmountReportRepository.findAllByEmail(email).forEach(report -> writeCsv(writer, report, DAILY_AMOUNT_NAME_MAPPING)));
+
+        writeReport(csvWriter, DAILY_REPORTS_CSV_HEADER, DAILY_REPORTS_NAME_MAPPING, writer ->
+                transactionRepository.getAllDailyUserReport(email).forEach(report -> writeCsv(writer, report, DAILY_REPORTS_NAME_MAPPING)));
     }
 
-    private void writeAccountReport(ICsvBeanWriter csvWriter, String email) throws IOException {
-        csvWriter.writeHeader(ACCOUNT_CSV_HEADER);
-        accountRepository.findAccountsByEmail(email).forEach(account -> {
-            try {
-                csvWriter.write(account, ACCOUNT_NAME_MAPPING);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to write account report", e);
-            }
-        });
+    private void writeReport(ICsvBeanWriter csvWriter, String[] header, String[] nameMapping, Consumer<ICsvBeanWriter> reportWriter) throws IOException {
+        csvWriter.writeHeader(header);
+        reportWriter.accept(csvWriter);
     }
 
-    private void writeDailyAmountReport(ICsvBeanWriter csvWriter, String email) throws IOException {
-        csvWriter.writeHeader(DAILY_AMOUNT_CSV_HEADER);
-        dailyAmountReportRepository.findAllByEmail(email).forEach(report -> {
-            try {
-                csvWriter.write(report, DAILY_AMOUNT_NAME_MAPPING);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to write daily amount report", e);
-            }
-        });
-    }
-
-    private void writeDailyReport(ICsvBeanWriter csvWriter, String email) throws IOException {
-        csvWriter.writeHeader(DAILY_REPORTS_CSV_HEADER);
-        transactionRepository.getAllDailyUserReport(email).forEach(report -> {
-            try {
-                csvWriter.write(report, DAILY_REPORTS_NAME_MAPPING);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to write daily report", e);
-            }
-        });
+    private void writeCsv(ICsvBeanWriter csvWriter, Object bean, String[] nameMapping) {
+        try {
+            csvWriter.write(bean, nameMapping);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to write CSV report", e);
+        }
     }
 }
